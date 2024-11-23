@@ -4,3 +4,4 @@ juxi.egg-info/
 __pycache__/
 package-lock.json
 node_modules/
+src/static/juxi.min.css

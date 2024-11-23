@@ -19,6 +19,7 @@ classifiers = [
 dependencies = [
     "flask >= 3.1.0"
 ]
+#TODO @mark: pymongo?
 
 [project.urls]
 Homepage = "https://github.com/mverleg/juxi"

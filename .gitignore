@@ -2,3 +2,5 @@
 juxi.egg-info/
 .build/
 __pycache__/
+package-lock.json
+node_modules/

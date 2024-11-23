@@ -17,7 +17,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "flask >= 3.1.0"
+    "waitress>=3.0.2",
+    "flask>=3.1.0",
 ]
 #TODO @mark: pymongo?
 

@@ -1,0 +1,25 @@
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "juxi"
+version = "0.1.0"
+authors = [
+    { name="Mark Verleg", email="mverleg.noreply@gmail.com" },
+]
+description = "Simple webservice for some testing and deployment automation"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "flask >= 3.1.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/mverleg/juxi"
+Issues = "https://github.com/mverleg/juxi/issues"

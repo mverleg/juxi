@@ -1,5 +1,5 @@
 
-# Juxi
+# Juxi 🦎
 
 Simple webservice for some testing and deployment automation.
 
@@ -11,3 +11,4 @@ Planned features:
 * Simple monitoring and alerting
 
 
+ 

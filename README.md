@@ -19,7 +19,15 @@ Install dependencies like flask in a virtualenv with `pip install .`, and run
 
 ## Release
 
-1. Create and test the image
+Create the image
 
     docker build -t 'mverleg/yuxi:latest' .
-    docker run -p8080:8080 -it 'mverleg/yuxi:latest'
+
+Test it
+
+    docker run --rm -p5000:5000 -it 'mverleg/yuxi:latest'
+    
+Push if all okay
+
+    docker push 'mverleg/yuxi:latest'
+

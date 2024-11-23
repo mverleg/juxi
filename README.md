@@ -13,11 +13,13 @@ Planned features:
 
 ## Local dev
 
+Install dependencies like flask in a virtualenv with `pip install .`, and run
+
+    flask run --debug
 
 ## Release
 
 1. Create the image
 
-   docker build -t 'mverleg/yuxi:latest' -f deploy/Dockerfile deploy
-   docker push -t 'mverleg/yuxi:latest' -f deploy/Dockerfile deploy
+   docker build -t 'mverleg/yuxi:latest' .
 

@@ -15,7 +15,7 @@ Planned features:
 
 Install dependencies like flask in a virtualenv with `pip install .`, and run
 
-    npx tailwindcss -i ./src/tailwind/juxi.css -o ./src/static/juxi.min.css --minify --watch
+    npx tailwindcss -i ./tailwind/juxi.css -o ./static/juxi.min.css --minify --watch
     flask run --debug
 
 ## Release

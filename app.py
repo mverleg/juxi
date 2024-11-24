@@ -1,13 +1,15 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask
+
+from urls import build_urls
 
 
 def create_app(test_config=None):
     app = Flask('juxi',
-        template_folder='src/templates',
+        template_folder='templates',
         static_url_path='/s',
-        static_folder='src/static/',
+        static_folder='static/',
         instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
@@ -24,17 +26,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route('/login', methods=['GET', 'POST'])
-    def login():
-        return render_template('login.html')
-
-    @app.route('/logout', methods=['GET', 'POST'])
-    def logout():
-        return render_template('logout.html')
-
-    @app.route('/')
-    def home():
-        return render_template('index.html')
+    build_urls(app)
 
     return app
 

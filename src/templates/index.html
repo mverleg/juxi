@@ -7,22 +7,26 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='juxi.png') }}">
     <title>Juxi 🦎</title>
 </head>
-<body class="font-sans antialiased text-gray-600 min-h-full bg-emerald-50">
+<body class="font-sans antialiased text-gray-700 min-h-screen bg-emerald-100">
 <div id="app">
-    <header class="w-full border-solid border-b-2 border-emerald-200  bg-emerald-100">
-        <nav class="max-w-xl mx-auto py-3">
-            <a href="/" class="hover:bg-emerald-600">
-                <h1 class="font-bold uppercase">
-                    <img class="inline size-24" src="{{ url_for('static', filename='juxi.png') }}" alt="🦎"/>
-                    <span class="text-xl">juxi</span>
+    <header class="w-full border-solid border-b-4 border-emerald-300 bg-emerald-200">
+        <nav class="max-w-4xl mx-auto">
+            <a href="/" class="inline-block">
+                <h1 class="inline-block hover:bg-emerald-300 p-2">
+                    <img class="inline-block size-24 align-top" src="{{ url_for('static', filename='juxi.png') }}" alt="🦎"/>
+                    <span class="text-8xl uppercase font-bold align-middle">juxi</span>
                 </h1>
             </a>
         </nav>
     </header>
-    <main class="max-w-xl mx-auto flex">
-        <h1 class="text-xl">Welcome to <span class="uppercase">juxi</span></h1>
+    <main class="max-w-4xl mx-auto flex min-h-screen bg-emerald-50">
+        <h1 class="text-3xl mt-6">Welcome to <span class="font-bold">juxi</span></h1>
     </main>
-    <footer></footer>
+    <footer class="w-full border-solid border-t-4 border-emerald-300 bg-emerald-200">
+        <p class="max-w-4xl mx-auto">
+            © Mark 🐍 code at <a href="https://github.com/mverleg/juxi" class="underline hover:bg-fuchsia-400 focus:bg-fuchsia-400">github.com/mverleg/juxi</a>
+        </p>
+    </footer>
 </div>
 <script src="{{ url_for('static', filename='juxi.js') }}"></script>
 </body>

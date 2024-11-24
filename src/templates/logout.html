@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Login ♦ {% endblock title %}
+
+{% block main %}
+    <h1 class="text-3xl mt-6">Do you want to logout?</h1>
+
+    <div class="max-w-2xl pt-6">
+        <form method="POST" action="{{ url_for('logout') }}">
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <button tabindex="3" type="submit" class="text-white bg-emerald-400 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none focus:ring-fuchsia-400 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Logout</button>
+        </form>
+
+        <p class="italic mt-4"><a class="underline" href="{{ url_for('home') }}">Stay logged in instead</a></p>
+    </div>
+{% endblock main %}
+

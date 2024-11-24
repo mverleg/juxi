@@ -11,7 +11,7 @@
 <div id="app">
     <header class="w-full border-solid border-b-4 border-emerald-300 bg-emerald-200">
         <nav class="max-w-4xl mx-auto">
-            <a href="/" class="inline-block">
+            <a href="{{ url_for('home') }}" class="inline-block">
                 <h1 class="inline-block hover:bg-emerald-300 p-2">
                     <img class="inline-block size-24 align-top" src="{{ url_for('static', filename='juxi.png') }}" alt="🦎"/>
                     <span class="text-8xl uppercase font-bold align-middle">juxi</span>

@@ -28,8 +28,12 @@ def create_app(test_config=None):
     def login():
         return render_template('login.html')
 
+    @app.route('/logout', methods=['GET', 'POST'])
+    def logout():
+        return render_template('logout.html')
+
     @app.route('/')
-    def hello_world():
+    def home():
         return render_template('index.html')
 
     return app

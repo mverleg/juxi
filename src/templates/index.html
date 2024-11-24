@@ -7,21 +7,22 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='juxi.png') }}">
     <title>Juxi 🦎</title>
 </head>
-<body class="font-sans antialiased text-gray-600 min-h-full flex flex-col">
+<body class="font-sans antialiased text-gray-600 min-h-full bg-emerald-50">
 <div id="app">
-    <header class="">
-        <nav class="">
+    <header class="w-full border-solid border-b-2 border-emerald-200  bg-emerald-100">
+        <nav class="max-w-xl mx-auto py-3">
             <a href="/" class="hover:bg-emerald-600">
-                <h1 class="text-6xl font-bold uppercase">
-                    <img class="inline" src="{{ url_for('static', filename='juxi.png') }}" alt="🦎" />
-                    juxi
+                <h1 class="font-bold uppercase">
+                    <img class="inline size-24" src="{{ url_for('static', filename='juxi.png') }}" alt="🦎"/>
+                    <span class="text-xl">juxi</span>
                 </h1>
             </a>
         </nav>
     </header>
-<main class="flex">
-</main>
-<footer></footer>
+    <main class="max-w-xl mx-auto flex">
+        <h1 class="text-xl">Welcome to <span class="uppercase">juxi</span></h1>
+    </main>
+    <footer></footer>
 </div>
 <script src="{{ url_for('static', filename='juxi.js') }}"></script>
 </body>

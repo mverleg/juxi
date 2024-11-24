@@ -20,7 +20,7 @@ Install dependencies like flask in a virtualenv with `pip install .`, and run
 
 ## Release
 
-Create the image
+Create the Docker image
 
     docker build -t 'mverleg/juxi:latest' .
 

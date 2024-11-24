@@ -24,7 +24,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route('/auth', methods=['GET', 'POST'])
+    @app.route('/login', methods=['GET', 'POST'])
     def login():
         return render_template('login.html')
 

@@ -15,19 +15,20 @@ Planned features:
 
 Install dependencies like flask in a virtualenv with `pip install .`, and run
 
+    npx tailwindcss -i ./src/tailwind/juxi.css -o ./src/static/juxi.min.css --minify --watch
     flask run --debug
 
 ## Release
 
 Create the image
 
-    docker build -t 'mverleg/yuxi:latest' .
+    docker build -t 'mverleg/juxi:latest' .
 
 Test it
 
-    docker run --rm -p5000:5000 -it 'mverleg/yuxi:latest'
+    docker run --rm -p5000:5000 -it 'mverleg/juxi:latest'
     
 Push if all okay
 
-    docker push 'mverleg/yuxi:latest'
+    docker push 'mverleg/juxi:latest'
 

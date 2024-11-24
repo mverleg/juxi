@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='juxi.min.css') }}" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='juxi.png') }}">
     <title>Juxi 🦎</title>
 </head>
-<body>
-<h2>juxi 🦎</h2>
+<body class="font-sans antialiased text-gray-600 min-h-full flex flex-col">
+<div id="app">
+    <header class="">
+        <nav class="">
+            <a href="/" class="hover:bg-emerald-600">
+                <h1 class="text-6xl font-bold uppercase">
+                    <img class="inline" src="{{ url_for('static', filename='juxi.png') }}" alt="🦎" />
+                    juxi
+                </h1>
+            </a>
+        </nav>
+    </header>
+<main class="flex">
+</main>
+<footer></footer>
+</div>
+<script src="{{ url_for('static', filename='juxi.js') }}"></script>
 </body>
 </html>

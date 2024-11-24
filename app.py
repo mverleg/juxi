@@ -4,7 +4,11 @@ from flask import Flask, render_template
 
 
 def create_app(test_config=None):
-    app = Flask(__name__, template_folder='src/templates', instance_relative_config=True)
+    app = Flask('juxi',
+        template_folder='src/templates',
+        static_url_path='/s',
+        static_folder='src/static/',
+        instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),

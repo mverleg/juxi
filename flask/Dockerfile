@@ -10,7 +10,7 @@ FROM python:3.10.15-alpine3.20
 EXPOSE 5000
 WORKDIR /code
 
-COPY pyproject.toml ./
+COPY ../pyproject.toml ./
 
 RUN pip install .
 

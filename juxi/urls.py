@@ -8,6 +8,6 @@ from juxi.views.auth import login, logout
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
-    path('login', login),
-    path('logout', logout),
+    path('login/', login),
+    path('logout/', logout),
 ]

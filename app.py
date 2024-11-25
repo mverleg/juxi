@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, request
 
 from views.auth import build_auth
 
@@ -29,6 +29,11 @@ def create_app(test_config=None):
     build_auth(app)
     @app.route('/')
     def home():
+        if True:
+            next=None
+            if request.full_path != '/?':
+                next=request.full_path.rstrip('?')
+            return redirect(url_for('login', next=next))
         return render_template('index.html')
 
 

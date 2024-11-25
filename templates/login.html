@@ -5,7 +5,9 @@
 {% block main %}
     <h1 class="text-3xl mt-6">Welcome to <span class="font-bold">juxi</span></h1>
 
-    <div class="max-w-2xl">
+    <p>All the functionality of this site is only accessible when authenticated.</p>
+
+    <div class="max-w-2xl mt-6">
         <form method="POST" action="{{ url_for('login') }}">
             <div class="mb-6">
                 <label for="username" class="block mb-2 text-sm font-medium dark:text-white">Username</label>
@@ -15,7 +17,7 @@
                 <label for="password" class="block mb-2 text-sm font-medium dark:text-white">Password</label>
                 <input tabindex="2" type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-fuchsia-400 focus:border-fuchsia-400 block w-full p-2.5" placeholder="************************" required />
             </div>
-            <input type="hidden" name="next" value="{{ request.path }}">
+            <input type="hidden" name="next" value="{{ next }}">
             <button tabindex="3" type="submit" class="text-white bg-emerald-400 hover:bg-fuchsia-400 focus:ring-4 focus:outline-none focus:ring-fuchsia-400 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Login</button>
         </form>
 

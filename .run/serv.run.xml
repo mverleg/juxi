@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="serv" type="CompoundRunConfigurationType">
+    <toRun name="juxi" type="Python.DjangoServer" />
+    <toRun name="tailwind" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>

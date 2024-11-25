@@ -1,9 +1,7 @@
 *
-!static/
+!juxi/
+!manage.py
+!settings.py
 !tailwind/
-!templates/
-!views/
-!models/
-!app.py
 !pyproject.toml
 !package.json

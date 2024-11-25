@@ -7,3 +7,4 @@ node_modules/
 static/juxi.min.css
 local.py
 testdb.sqlite3
+out/

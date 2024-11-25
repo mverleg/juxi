@@ -1,16 +1,14 @@
 
 from django.contrib import admin
-from django.template.context_processors import static
 from django.urls import path
 
-import settings
-from juxi.views.home import home
 from juxi.views.auth import login, logout
+from juxi.views.home import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
-    path('login/', login),
-    path('logout/', logout),
+    path('login/', login, name='login'),
+    path('logout/', logout, name='logout'),
 
 ]

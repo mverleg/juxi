@@ -4,7 +4,8 @@
   "description": "Simple webservice for some testing and deployment automation.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "css-watch": "npm run css-min -- --watch",
+    "css-min": "npx tailwindcss -i ./tailwind/juxi.css -o ./out/static/juxi.min.css --minify"
   },
   "author": "Mark",
   "dependencies": {

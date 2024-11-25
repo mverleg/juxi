@@ -21,7 +21,7 @@ The first time, you need
 
 Then subsequently, when starting run these two commands in separate shells:
 
-    npx tailwindcss -i ./tailwind/juxi.css -o ./static/juxi.min.css --minify --watch
+    npm run css-watch
     python3 manage.py runserver
 
 ## Release

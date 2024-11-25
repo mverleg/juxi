@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "css-watch": "npm run css-min -- --watch",
-    "css-min": "npx tailwindcss -i ./tailwind/juxi.css -o ./out/static/juxi.min.css --minify"
+    "css-min": "npx tailwindcss -i ./tailwind/juxi.css -o out/tailwind/juxi.min.css --minify"
   },
   "author": "Mark",
   "dependencies": {

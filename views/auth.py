@@ -1,7 +1,6 @@
+from flask import render_template
 
-from flask import Flask, render_template
-
-def build_urls(app):
+def build_auth(app):
     @app.route('/login', methods=['GET', 'POST'])
     def login():
         return render_template('login.html')
@@ -10,6 +9,3 @@ def build_urls(app):
     def logout():
         return render_template('logout.html')
 
-    @app.route('/')
-    def home():
-        return render_template('index.html')

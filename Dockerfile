@@ -14,7 +14,7 @@ COPY pyproject.toml ./
 
 RUN pip install .
 
-COPY src ./
+COPY . ./
 
 # https://flask.palletsprojects.com/en/stable/tutorial/deploy/
 ENTRYPOINT ["waitress-serve", "--port", "5000", "--call", "app:create_app"]

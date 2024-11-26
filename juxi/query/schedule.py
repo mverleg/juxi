@@ -26,20 +26,21 @@ def task_overview() -> List[TaskOverview]:
     #       WHERE outr.series_id == innr.series_id
     #   );
 
-    reset_queries()  #TODO @mark: TEMPORARY! REMOVE THIS!
+    reset_queries()
 
-    subquery = TaskRun.objects.filter(
-        series_id=OuterRef('series_id')
-    ).values('series_id').annotate(
-        max_end_at=Max('end_at')
-    ).values('max_end_at')
+    latest_runs_subquery = (TaskRun.objects.filter(series_id=OuterRef('series_id'))
+        .annotate(max_end_at=Max('end_at'))
+        .values('max_end_at'))
+    latest_runs = (TaskRun.objects
+        .filter(end_at=Subquery(latest_runs_subquery))
+        .prefetch_related(None)
+        .all())
+    print(latest_runs)
 
-    queryset = TaskRun.objects.filter(
-        end_at=Subquery(subquery)
-    )
+    #TODO @mark: this does 1 query for each taskseries
+    #TODO @mark: for each page show: load time, # queries
 
-    print(queryset.query)
-    print(queryset.all())
+    print('\n'.join(q['sql'] for q in connection.queries))
 
 
     # djq = TaskRun.objects.filter(end_at=TaskRun.objects.values(latest=Max('end_at')).filter(series_id=OuterRef('series_id')))

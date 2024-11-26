@@ -37,7 +37,6 @@
         </nav>
     </header>
     <main class="max-w-4xl mx-auto min-h-screen bg-emerald-50 p-6">
-
         {% block main %}{% endblock main %}
     </main>
     <footer class="w-full border-solid border-t-4 border-emerald-300 bg-emerald-200">
@@ -46,6 +45,20 @@
         </p>
     </footer>
 </div>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{% for tag in message.tags %}msg{{ tag }}{% endfor %}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    <script>
+        {% for message in messages %}
+            console.{{ message.level }}("message:", {{ message }});
+        {% endfor %}
+    </script>
+{% else %}
+    <script>console.debug('page loaded, no message')</script>
+{% endif %}
 <script src="{% static 'juxi.js' %}"></script>
 </body>
 </html>

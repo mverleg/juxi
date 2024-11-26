@@ -25,15 +25,15 @@ class Schedule(models.Model):
     class Meta:
         ordering = ['name']
 
-    def __unicode__(self):
+    def __str__(self):
         return f'{self.name} (every {self.every_nth} {self.time_unit})'
 
 class TaskSeries(models.Model):
     name = models.CharField(max_length=64, unique=True)
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
-    code_template = models.TextField()
+    code_template = models.TextField(default="#!/usr/bin/env -S bash -eEu -o pipefail\n\necho 'TODO'")
 
-    def __unicode__(self):
+    def __str__(self):
         return f'{self.name} ({self.schedule.name})'
 
 
@@ -46,6 +46,6 @@ class TaskRun(models.Model):
     class Meta:
         ordering = ['start_at']
 
-    def __unicode__(self):
+    def __str__(self):
         return f'{self.series.name} at {self.start_at}'
 

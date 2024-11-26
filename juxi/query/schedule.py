@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional, List
 
+from django.db import reset_queries, connection
 from django.db.models import Min, Max
 
 from juxi.models import TaskRun, TaskSeries
@@ -14,8 +15,14 @@ class TaskOverview:
 
 
 def task_overview() -> List[TaskOverview]:
-    series = TaskRun.objects.all()\
-        .values('series')\
-        .aggregate(lowest=Min('start_at'), highest=Max('start_at'))
+    reset_queries()
+    series = TaskRun.objects \
+        .values('series_id') \
+        .annotate(series=Min('series_id'), last_run=Max('start_at'))
     print(series)
-
+    print(
+        TaskRun.objects
+        .values('series_id')
+        .annotate(latest_start_at=Max('start_at'))
+        .all())
+    print('\n'.join(q['sql'] for q in connection.queries))

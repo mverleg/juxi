@@ -15,12 +15,12 @@ class TaskSeriesAdmin(admin.ModelAdmin):
 class TaskRunAdmin(admin.ModelAdmin):
     list_display = ['series', 'start_at']
 
-    def has_add_permission(self, request):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
+    # def has_add_permission(self, request):
+    #     return False
+    #
+    # def has_delete_permission(self, request, obj=None):
+    #     return False
+    #TODO @mark: make readonly ^
 
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(TaskSeries, TaskSeriesAdmin)

@@ -28,6 +28,7 @@ class Schedule(models.Model):
     def __str__(self):
         return f'{self.name} (every {self.every_nth} {self.time_unit})'
 
+
 class TaskSeries(models.Model):
     name = models.CharField(max_length=64, unique=True)
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
@@ -40,8 +41,9 @@ class TaskSeries(models.Model):
 class TaskRun(models.Model):
     series = models.ForeignKey(TaskSeries, on_delete=models.CASCADE)
     start_at = models.DateTimeField()
-    code = models.TextField()
-    output = models.TextField()
+    end_at = models.DateTimeField()
+    code = models.TextField(blank=True)
+    output = models.TextField(blank=True)
 
     class Meta:
         ordering = ['start_at']

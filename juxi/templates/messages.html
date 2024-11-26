@@ -1,0 +1,36 @@
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            {% if 'error' in message.tags %}
+                <li class="bg-red-100 border border-red-400 text-red-700 p-2 mb-3 rounded relative" role="alert">
+                    <strong class="font-bold">🚫 Error</strong>
+                    {% elif 'warning' in message.tags %}
+                <li class="bg-orange-100 border border-orange-400 text-orange-700 p-2 mb-3 rounded relative" role="alert">
+                    <strong class="font-bold">⚠️ Warning</strong>
+                    {% else %}
+                <li class="bg-blue-100 border border-blue-400 text-blue-700 p-2 mb-3 rounded relative" role="alert">
+                <strong class="font-bold">🛈</strong>
+            {% endif %}
+        <span class="block sm:inline">{{ message }}</span>
+        <a class="message-close-btn px-4 py-2 absolute top-0 bottom-0 right-0" title="Dismiss message" role="button">x</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <script>
+        document.querySelectorAll('.message-close-btn').forEach(btn_elem =>
+            btn_elem.addEventListener('click', event => {
+                const msg_elem = event.target.parentElement;
+                console.log('closing message', msg_elem);
+                msg_elem.remove();
+            }));
+        {% for message in messages %}
+            console.{% if 'error' in message.tags %}error{% elif 'warning' in message.tags %}warn{% else %}log{% endif %}(
+                'message:', '"{{ message }}"', 'for', '{{ request.user }}');
+        {% endfor %}
+    </script>
+{% else %}
+    <script>
+        console.log('no incoming messages for', '{{ request.user }}');
+    </script>
+{% endif %}

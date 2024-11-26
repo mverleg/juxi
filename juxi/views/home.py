@@ -8,5 +8,7 @@ def home(request):
         return redirect(f"{reverse('login')}?next={request.get_full_path()}")
         #TODO @mark: make this default everywhere
     messages.info(request, f"Welcome, {request.user.username}! (home)")
+    messages.warning(request, f"Welcome, {request.user.username}! (home)")
+    messages.error(request, f"Welcome, {request.user.username}! (home)")
     return render(request, 'home.html')
 

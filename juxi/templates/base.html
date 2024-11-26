@@ -37,6 +37,28 @@
         </nav>
     </header>
     <main class="max-w-4xl mx-auto min-h-screen bg-emerald-50 p-6">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    {% if 'error' in message.tags %}
+                        <li class="bg-red-100 border border-red-400 text-red-700 p-2 mb-3 rounded relative" role="alert">
+                            <strong class="font-bold">🚫 Error</strong>
+                    {% elif 'warning' in message.tags %}
+                        <li class="bg-orange-100 border border-orange-400 text-orange-700 p-2 mb-3 rounded relative" role="alert">
+                            <strong class="font-bold">⚠️ Warning</strong>
+                    {% else %}
+                        <li class="bg-blue-100 border border-blue-400 text-blue-700 p-2 mb-3 rounded relative" role="alert">
+                            <strong class="font-bold">🛈</strong>
+                    {% endif %}
+                        <span class="block sm:inline">{{ message }}</span>
+        {#                <span class="absolute top-0 bottom-0 right-0 p-4">#}
+        {#                <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path#}
+        {#                        d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>#}
+        {#                </span>#}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         {% block main %}{% endblock main %}
     </main>
     <footer class="w-full border-solid border-t-4 border-emerald-300 bg-emerald-200">
@@ -45,20 +67,11 @@
         </p>
     </footer>
 </div>
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li class="{% for tag in message.tags %}msg{{ tag }}{% endfor %}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-    <script>
-        {% for message in messages %}
-            console.{{ message.level }}("message:", {{ message }});
-        {% endfor %}
-    </script>
-{% else %}
-    <script>console.debug('page loaded, no message')</script>
-{% endif %}
 <script src="{% static 'juxi.js' %}"></script>
+<script>{% if messages %}{% for message in messages %}
+console.{{ message.tags }}('message', '"{{ message }}"', 'for', '{{ request.user }}');
+{% endfor %}{% else %}
+console.debug('no incoming messages for', '{{ request.user }}');
+    {% endif %}</script>
 </body>
 </html>

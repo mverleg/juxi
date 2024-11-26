@@ -8,6 +8,16 @@
     <link href="{% static 'juxi.min.css' %}" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="{% static 'juxi.png' %}">
     <title>{% block title %}{% endblock title %}Juxi</title>
+    <style>
+        .errorlist {
+            font-weight: bold;
+            color: crimson;
+        }
+        .errorlist li:before {
+            content: "⚠️";
+            margin-right: 0.5em;
+        }
+    </style>
 </head>
 <body class="font-sans antialiased text-gray-700 min-h-screen bg-emerald-100">
 <div id="app">

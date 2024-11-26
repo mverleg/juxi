@@ -15,7 +15,7 @@ def login(request):
         assert next.startswith('/')  #TODO @mark: better validation
         return redirect(next)
     return render(request, 'login.html', dict(
-        form=LogoutForm(initial=dict(
+        form=LoginForm(initial=dict(
             next=request.GET.get('next', reverse('home'))
         ))
     ))

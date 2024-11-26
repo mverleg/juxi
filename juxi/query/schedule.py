@@ -15,6 +15,15 @@ class TaskOverview:
 
 
 def task_overview() -> List[TaskOverview]:
+
+    # SELECT *
+    # FROM juxi_taskrun AS outr
+    # WHERE outr.end_at = (
+    #     SELECT MAX(innr.end_at)
+    #     FROM juxi_taskrun AS innr
+    #     WHERE outr.series_id == innr.series_id
+    # );
+
     reset_queries()
     series = TaskRun.objects \
         .values('series_id') \
@@ -25,4 +34,7 @@ def task_overview() -> List[TaskOverview]:
         .values('series_id')
         .annotate(latest_start_at=Max('start_at'))
         .all())
+
     print('\n'.join(q['sql'] for q in connection.queries))
+
+

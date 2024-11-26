@@ -1,3 +1,5 @@
+
+from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -14,14 +16,19 @@ def login(request):
         if form.is_valid():
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             if user is None:
-                form.add_error('password', 'wrong username or password')
+                messages.add_message(request, messages.ERROR, "Wrong username or password")
+                form.add_error('password', 'Wrong username or password')
             else:
                 if not user.is_active:
-                    return HttpResponseForbidden(redirect("this account is inactive"))
+                    messages.add_message(request, messages.ERROR, "Account is disabled")
+                    return HttpResponseForbidden(redirect("Account is disabled"))
+                messages.add_message(request, messages.INFO, "Welcome, {user.username}!}")
                 user_login(request, user)
                 next = form.cleaned_data['next']
                 assert next.startswith('/')
                 return redirect(next)
+        else:
+            messages.add_message(request, messages.ERROR, "Invalid input for username or password")
     else:
         form = LoginForm(initial=dict(
             next=request.GET.get('next', reverse('home'))

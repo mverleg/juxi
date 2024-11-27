@@ -34,9 +34,10 @@ def login(request):
         else:
             error(request, "Invalid input for username or password")
     else:
-        form = LoginForm(initial=dict(
-            next=request.GET.get('next', reverse('home'))
-        ))
+        next = request.GET.get('next', reverse('home'))
+        if 'login' in next:
+            next = reverse('home')
+        form = LoginForm(initial=dict(next=next))
     return render_juxi(request, 'login.html', dict(
         form=form,
     ))

@@ -4,6 +4,7 @@ from typing import Optional, List
 
 from django.db import connection
 from django.db.models import Max, OuterRef, Subquery
+from django.urls import reverse
 
 from juxi.models import TaskRun, TaskSeries, Schedule
 
@@ -14,6 +15,21 @@ class TaskOverview:
     schedule: Schedule
     previous: Optional[TaskRun]
     next: datetime
+
+    def series_url(self) -> Optional[str]:
+        if self.series is None:
+            return None
+        return reverse('admin:{}_{}_change'.format(self.series._meta.app_label, self.series._meta.model_name), args=(self.series.pk,))
+
+    def schedule_url(self) -> Optional[str]:
+        if self.schedule is None:
+            return None
+        return reverse('admin:{}_{}_change'.format(self.schedule._meta.app_label, self.schedule._meta.model_name), args=(self.schedule.pk,))
+
+    def previous_url(self) -> Optional[str]:
+        if self.previous is None:
+            return None
+        return reverse('admin:{}_{}_change'.format(self.previous._meta.app_label, self.previous._meta.model_name), args=(self.previous.pk,))
 
 
 def task_overview() -> List[TaskOverview]:

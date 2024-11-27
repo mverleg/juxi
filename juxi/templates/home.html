@@ -3,23 +3,31 @@
 {% block main %}
     <h1 class="text-3xl">Welcome to juxi, <span class="font-bold">{{ user }}</span></h1>
 
-    <table>
-        <tr>
+    <table class="juxi-table table-auto min-w-full text-left">
+    <thead>
+        <tr class="border-b border-neutral-200 font-medium">
             <th>series</th>
+            <th>schedule</th>
             <th>previous</th>
             <th>next</th>
-            <th>schedule</th>
             <th>actions</th>
         </tr>
+    </thead>
+    <tbody>
     {% for details in task_overview %}
-        <tr>
-            <td>{{ details.series.name }}</td>
-            <td>{{ details.previous.start_at }}</td>
-            <td>{{ details.next }}</td>
-            <td>every {{ details.schedule.every_nth }} {{ details.schedule.time_unit }}</td>
-            <td><a href="{% url 'admin:index' %}">edit</a> <a href="#todo">run</a></td>
+        <tr class="border-b border-neutral-200">
+            <td><a href="{{ details.series_url }}">{{ details.series.name }}</a></td>
+            <td><a href="{{ details.schedule_url }}">every {{ details.schedule.every_nth }} {{ details.schedule.time_unit }}</a></td>
+            {% if details.previous %}
+                <td title="{{ details.previous.start_at }}"><a href="{{ details.previous_url }}">{{ details.previous.start_at | date:'m-d H:i' }} ({{ details.previous.start_at | timesince }} ago)</a></td>
+            {% else %}
+                <td>not run yet</td>
+            {% endif %}
+            <td title="{{ details.next }}">{{ details.next | date:'m-d H:i' }} (in {{ details.next | timesince }})</td>
+            <td><a href="#todo">run</a></td>
         </tr>
     {% endfor %}
+    </tbody>
     </table>
 {% endblock main %}
 

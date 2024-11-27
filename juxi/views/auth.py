@@ -1,10 +1,12 @@
 
+from django.contrib.auth import logout as user_logout, authenticate, login as user_login
 from django.contrib.messages import error, info
 from django.http import HttpResponseForbidden, HttpResponseBadRequest
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse
-from django.contrib.auth import logout as user_logout, authenticate, login as user_login
+
 from juxi.forms.auth import LogoutForm, LoginForm
+from juxi.util.render import render_juxi
 from juxi.util.url import reverse_param
 
 
@@ -35,7 +37,7 @@ def login(request):
         form = LoginForm(initial=dict(
             next=request.GET.get('next', reverse('home'))
         ))
-    return render(request, 'login.html', dict(
+    return render_juxi(request, 'login.html', dict(
         form=form,
     ))
 
@@ -51,7 +53,7 @@ def logout(request):
         next = form.cleaned_data['next']
         assert next.startswith('/')
         return redirect(next)
-    return render(request, 'logout.html', dict(
+    return render_juxi(request, 'logout.html', dict(
         form=LogoutForm(initial=dict(
             next=request.GET.get('next', reverse('home'))
         ))

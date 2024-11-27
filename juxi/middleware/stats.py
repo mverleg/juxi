@@ -19,8 +19,8 @@ def stats_middleware(get_response):
         response = get_response(request)
 
         page_time = 1000 * (time() - page_time_start)
+        page_query_time = 1000 * sum(float(query['time']) for query in connection.queries[db_query_count_initial:])
         db_query_count = len(connection.queries) - db_query_count_initial
-        page_query_time = sum(float(query['time']) for query in connection.queries[db_query_count_initial:])
 
         if not response or not response.content or response.status_code != 200:
             return response

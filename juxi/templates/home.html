@@ -3,5 +3,23 @@
 {% block main %}
     <h1 class="text-3xl">Welcome to juxi, <span class="font-bold">{{ user }}</span></h1>
 
+    <table>
+        <tr>
+            <th>series</th>
+            <th>previous</th>
+            <th>next</th>
+            <th>schedule</th>
+            <th>actions</th>
+        </tr>
+    {% for details in task_overview %}
+        <tr>
+            <td>{{ details.series.name }}</td>
+            <td>{{ details.previous.start_at }}</td>
+            <td>{{ details.next }}</td>
+            <td>every {{ details.schedule.every_nth }} {{ details.schedule.time_unit }}</td>
+            <td><a href="{% url 'admin:index' %}">edit</a> <a href="#todo">run</a></td>
+        </tr>
+    {% endfor %}
+    </table>
 {% endblock main %}
 

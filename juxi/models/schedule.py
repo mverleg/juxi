@@ -4,12 +4,18 @@ from datetime import datetime, timedelta
 from django.core.validators import MinValueValidator
 from django.db import models
 
+MONTH = 'month'
+WEEK = 'week'
+DAY = 'day'
+HOUR = 'hour'
+MINUTE = 'minute'
+
 UNIT = (
-    ('month','Month'),
-    ('week', 'Week'),
-    ('day','Day'),
-    ('hour','Hour'),
-    ('minute','Minute'),
+    (MONTH, 'Month'),
+    (WEEK, 'Week'),
+    (DAY, 'Day'),
+    (HOUR, 'Hour'),
+    (MINUTE, 'Minute'),
 )
 
 def default_time():

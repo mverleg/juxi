@@ -7,6 +7,7 @@ from django.db.models import Max, OuterRef, Subquery
 from django.urls import reverse
 
 from juxi.models import TaskRun, TaskSeries, Schedule
+from juxi.util.schedule import next_occurrence
 
 
 @dataclass
@@ -57,13 +58,15 @@ def task_overview() -> List[TaskOverview]:
 
     query_count = len(connection.queries) - query_count_init
     assert query_count <= 2
+    #TODO @mark: this cannot possibly be passing... ^
 
+    now = datetime.now()
     overview = list(TaskOverview(
         series,
-        all_schedules_map[series.schedule_id],
+        schedule,
         latest_run_map.get(series.id, None),
-        datetime.now(),
-    ) for series in all_series)
+        next_occurrence(schedule.date_reference, schedule.time_unit, schedule.every_nth, now),
+    ) for series, schedule in [(series, all_schedules_map[series.schedule_id]) for series in all_series])
 
     return sorted(overview, key=lambda series: series.next)
 

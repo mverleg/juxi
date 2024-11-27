@@ -11,7 +11,8 @@ def render_juxi(request, template_name, context=None, **kwargs):
     db_query_count_initial = len(connection.queries)
     resp = render(request, template_name, context=context, **kwargs)
     db_query_count = len(connection.queries) - db_query_count_initial
-    if db_query_count > 0:
+    print(f'count {db_query_count_initial} -> {len(connection.queries)} for "{template_name}"')  #TODO @mark: TEMPORARY! REMOVE THIS!
+    if db_query_count != 0:
         example = connection.queries[db_query_count_initial + 1]['sql']
         logger.warning(f"performance warning: {db_query_count} queries in '{template_name}', e.g. {example}\n")
         if request.user.is_staff:

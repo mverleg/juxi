@@ -1,6 +1,6 @@
 
 from django.contrib.auth import logout as user_logout, authenticate, login as user_login
-from django.contrib.messages import error, info
+from django.contrib.messages import error, info, get_messages
 from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -54,6 +54,7 @@ def logout(request):
         next = form.cleaned_data['next']
         assert next.startswith('/')
         return redirect(next)
+    print('messages', len(get_messages(request)))  #TODO @mark: TEMPORARY! REMOVE THIS!
     return render_juxi(request, 'logout.html', dict(
         form=LogoutForm(initial=dict(
             next=request.GET.get('next', reverse('home'))

@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import Optional, List
 
-from django.db import reset_queries, connection
-from django.db.models import Min, Max, OuterRef, Subquery
+from django.db import connection
+from django.db.models import Max, OuterRef, Subquery
 
 from juxi.models import TaskRun, TaskSeries
 

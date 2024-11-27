@@ -38,10 +38,6 @@ def task_overview() -> List[TaskOverview]:
         .all())
     print(len(latest_runs))
 
-
-    #TODO @mark: this does 1 query for each taskseries
-    #TODO @mark: for each page show: load time, # queries
-
     print('\n'.join(q['sql'] for q in connection.queries[query_count_init:]))
     query_count = len(connection.queries) - query_count_init
     assert query_count <= 2

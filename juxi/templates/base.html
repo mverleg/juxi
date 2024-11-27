@@ -44,7 +44,7 @@
     <footer class="w-full border-solid border-t-4 border-emerald-300 bg-emerald-200">
         <p class="max-w-4xl mx-auto">
             © Mark 🐍 code at <a href="https://github.com/mverleg/juxi" class="underline hover:bg-fuchsia-400 focus:bg-fuchsia-400">github.com/mverleg/juxi</a>{% block footer %}{% endblock footer %}
-            | @{{ request.user }} %%STATS_PLACEHOLDER%%
+            | {% if request.user.is_authenticated %}@{{ request.user }}{% else %}not logged in{% endif %} %%STATS_PLACEHOLDER%%
         </p>
     </footer>
 </div>

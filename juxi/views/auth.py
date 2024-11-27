@@ -5,12 +5,14 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth import logout as user_logout, authenticate, login as user_login
 from juxi.forms.auth import LogoutForm, LoginForm
+from juxi.util.url import reverse_param
 
 
 def login(request):
     if request.user.is_authenticated:
+        next = request.GET.get('next', reverse('home'))
         return HttpResponseForbidden(redirect("you are already logged in; "
-            f"<a href='{reverse('logout')}?next={request.GET.get('next', reverse('home'))}'>logout</a>"))
+            f"<a href='{reverse_param('logout', next=next)}'>logout</a>"))
     if request.method == 'POST':
         form = LoginForm(data=request.POST)
         if form.is_valid():

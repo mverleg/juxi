@@ -53,10 +53,11 @@ def logout(request):
         next = form.cleaned_data['next']
         assert next.startswith('/')
         return redirect(next)
-    print('messages', len(get_messages(request)))  #TODO @mark: TEMPORARY! REMOVE THIS!
+    next = request.GET.get('next', reverse('home'))
     return render(request, 'logout.html', dict(
         form=LogoutForm(initial=dict(
-            next=request.GET.get('next', reverse('home'))
-        ))
+            next=next
+        )),
+        back_url=next
     ))
 

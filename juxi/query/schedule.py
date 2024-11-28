@@ -66,7 +66,7 @@ def task_overview() -> List[TaskOverview]:
         series,
         schedule,
         latest_run_map.get(series.id, None),
-        next_occurrence(schedule.date_reference, schedule.time_unit, schedule.every_nth, now),
+        next_occurrence(now, schedule.date_reference, schedule.time_unit, schedule.every_nth),
     ) for series, schedule in [(series, all_schedules_map[series.schedule_id]) for series in all_series])
 
     return sorted(overview, key=lambda series: series.next)

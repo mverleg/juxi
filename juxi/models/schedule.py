@@ -6,21 +6,9 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
 
+from juxi.data.schedule import TIME_UNIT, DAY
+
 NO_STATUS = -1
-
-MONTH = 'month'
-WEEK = 'week'
-DAY = 'day'
-HOUR = 'hour'
-MINUTE = 'minute'
-
-UNIT = (
-    (MONTH, 'Month'),
-    (WEEK, 'Week'),
-    (DAY, 'Day'),
-    (HOUR, 'Hour'),
-    (MINUTE, 'Minute'),
-)
 
 
 def default_time():
@@ -30,21 +18,14 @@ def default_time():
 class Schedule(models.Model):
     name = models.CharField(max_length=64, unique=True)
     date_reference = models.DateTimeField(default=default_time)
-    time_unit = models.CharField(max_length=8, choices=UNIT, default=UNIT[2])
+    time_unit = models.CharField(max_length=8, choices=TIME_UNIT, default=DAY)
     every_nth = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])
 
     class Meta:
         ordering = ['name']
 
     def save(self, *args, **kwargs):
-        if self.time_unit in {MONTH, WEEK, DAY}:
-            self.date_reference = self.date_reference.replace(hour=12, minute=0, second=0, microsecond=0)
-        elif self.time_unit == HOUR:
-            self.date_reference = self.date_reference.replace(minute=0, second=0, microsecond=0)
-        elif self.time_unit == MINUTE:
-            self.date_reference = self.date_reference.replace(second=0, microsecond=0)
-        else:
-            raise NotImplementedError()
+        self.date_reference = self.date_reference.replace(second=0, microsecond=0)
         super().save(*args, **kwargs)
 
     def __str__(self):

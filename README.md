@@ -15,7 +15,7 @@ Planned features:
 
 The first time, you need
 
-* Install dependencies: `pip install .`
+* Install dependencies: `pip install .[test]`
 * Migrate database: `python3 manage.py migrate`
 * Create a `local.py` setting file, example `local.example.py`
 

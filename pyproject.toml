@@ -20,6 +20,10 @@ dependencies = [
     "waitress>=3.0.2",
     "django>=5.1.0,<6.0.0",
 ]
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
 
 [tool.setuptools]
 py-modules = ["juxi"]

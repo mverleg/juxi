@@ -1,9 +1,12 @@
 
 from datetime import timedelta
 
+from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
+
+NO_STATUS = -1
 
 MONTH = 'month'
 WEEK = 'week'
@@ -18,6 +21,7 @@ UNIT = (
     (HOUR, 'Hour'),
     (MINUTE, 'Minute'),
 )
+
 
 def default_time():
     return timezone.now().replace(hour=8, minute=0, second=0, microsecond=0) + timedelta(days=1)
@@ -60,8 +64,10 @@ class TaskRun(models.Model):
     series = models.ForeignKey(TaskSeries, on_delete=models.CASCADE)
     start_at = models.DateTimeField()
     end_at = models.DateTimeField()
-    code = models.TextField(blank=True)
-    output = models.TextField(blank=True)
+    triggered_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    code = models.TextField(null=True, blank=True)
+    output = models.TextField(null=True, blank=True)
+    status = models.SmallIntegerField(default=NO_STATUS)
 
     class Meta:
         ordering = ['start_at']

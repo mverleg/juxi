@@ -36,6 +36,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'juxi.middleware.stats.stats_middleware',
+    'juxi.middleware.tz.timezone_cookie_middleware',
 ]
 
 ROOT_URLCONF = 'juxi.urls'

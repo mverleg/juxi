@@ -25,7 +25,7 @@
             {% else %}
                 <td>not run yet</td>
             {% endif %}
-            <td title="{{ details.next }}">{{ details.next | short_time }} (in {{ details.next | timesince }})</td>
+            <td title="{{ details.next }} ({{ details.next.tzname }})">{{ details.next | short_time }} (in {{ details.next | timesince }})</td>
             <td><a href="#todo">run</a></td>
         </tr>
     {% endfor %}

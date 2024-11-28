@@ -5,6 +5,7 @@ from typing import Optional, List
 from django.db import connection
 from django.db.models import Max, OuterRef, Subquery
 from django.urls import reverse
+from django.utils import timezone
 
 from juxi.models import TaskRun, TaskSeries, Schedule
 from juxi.util.schedule import next_occurrence
@@ -60,7 +61,7 @@ def task_overview() -> List[TaskOverview]:
     assert query_count <= 2
     #TODO @mark: this cannot possibly be passing... ^
 
-    now = datetime.now()
+    now = timezone.now()
     overview = list(TaskOverview(
         series,
         schedule,

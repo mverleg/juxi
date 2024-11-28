@@ -34,5 +34,3 @@ def stats_middleware(get_response):
         return response
 
     return middleware
-
-

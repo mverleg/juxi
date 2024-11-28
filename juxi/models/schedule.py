@@ -1,8 +1,9 @@
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.utils import timezone
 
 MONTH = 'month'
 WEEK = 'week'
@@ -19,7 +20,7 @@ UNIT = (
 )
 
 def default_time():
-    return datetime.now().replace(hour=8, minute=0, second=0, microsecond=0) + timedelta(days=1)
+    return timezone.now().replace(hour=8, minute=0, second=0, microsecond=0) + timedelta(days=1)
 
 
 class Schedule(models.Model):

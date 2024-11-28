@@ -9,7 +9,7 @@ class ScheduleAdmin(admin.ModelAdmin):
 
 
 class TaskSeriesAdmin(admin.ModelAdmin):
-    list_display = ['schedule']
+    list_display = ['name', 'schedule']
 
 
 class TaskRunAdmin(admin.ModelAdmin):

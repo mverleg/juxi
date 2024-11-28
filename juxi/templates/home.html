@@ -19,7 +19,7 @@
     {% for details in task_overview %}
         <tr class="border-b border-neutral-200">
             <td><a href="{{ details.series_url }}">{{ details.series.name }}</a></td>
-            <td><a href="{{ details.schedule_url }}">every {{ details.schedule.every_nth }} {{ details.schedule.time_unit }}</a></td>
+            <td><a href="{{ details.schedule_url }}">every {{ details.schedule.every_nth }} {{ details.schedule.time_unit }}{% if details.schedule.every_nth > 1 %}s{% endif %}</a></td>
             {% if details.previous %}
                 <td title="{{ details.previous.start_at }}"><a href="{{ details.previous_url }}">{{ details.previous.start_at | short_time }} ({{ details.previous.start_at | timesince }} ago)</a></td>
             {% else %}

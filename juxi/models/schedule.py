@@ -32,6 +32,17 @@ class Schedule(models.Model):
     class Meta:
         ordering = ['name']
 
+    def save(self, *args, **kwargs):
+        if self.time_unit in {MONTH, WEEK, DAY}:
+            self.date_reference = self.date_reference.replace(hour=12, minute=0, second=0, microsecond=0)
+        elif self.time_unit == HOUR:
+            self.date_reference = self.date_reference.replace(minute=0, second=0, microsecond=0)
+        elif self.time_unit == MINUTE:
+            self.date_reference = self.date_reference.replace(second=0, microsecond=0)
+        else:
+            raise NotImplementedError()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f'{self.name} (every {self.every_nth} {self.time_unit})'
 

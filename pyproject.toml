@@ -19,6 +19,7 @@ classifiers = [
 dependencies = [
     "waitress>=3.0.2",
     "django>=5.1.0,<6.0.0",
+    "pytz",
 ]
 [project.optional-dependencies]
 test = [

@@ -20,6 +20,7 @@ dependencies = [
     "waitress>=3.0.2",
     "django>=5.1.0,<6.0.0",
     "pytz",
+    "python-dateutil",
 ]
 [project.optional-dependencies]
 test = [

@@ -51,5 +51,9 @@ def _next_occurrence_month(now: datetime, next: datetime, every_nth: int):
 
 
 def _add_months(dt: datetime, add_months: int) -> datetime:
-    print('subtract', add_months, 'from', dt)
-    return dt + relativedelta(month=add_months)
+    if add_months > 0:
+        return dt + relativedelta(month=add_months)
+    else:
+        #TODO @mark: is this `if` needed?
+        return dt - relativedelta(month=-add_months)
+

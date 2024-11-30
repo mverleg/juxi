@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from math import floor, ceil
 
 from dateutil.relativedelta import relativedelta
 from django.utils import timezone
@@ -26,27 +27,42 @@ def next_occurrence(now: datetime, reference: datetime, time_unit: str, every_nt
 
 def _next_occurrence_month(now: datetime, next: datetime, every_nth: int):
     print('')
-    print('reference', next)
+
     month_diff_pure = (now.year * 12 + now.month) - (next.year * 12 + next.month)
-    month_diff_steps = (month_diff_pure // every_nth) * every_nth
-    next = _add_months(next, month_diff_steps)
-    print('month_diff_pure', month_diff_steps, month_diff_steps)
-    print('next', next)
-    while next > now:
-        print(f'next = _add_months({next}, -{every_nth})')
-        next = _add_months(next, -every_nth)
-        print('subtract another', every_nth, 'next', next)
+    if (now.day, now.hour, now.minute) < (next.day, next.hour, next.minute):
+        # if they were the same month, `next` would be before `now`, so aim one month later
+        month_diff_pure += 1
+
+    if month_diff_pure < 0:
+        # need to shift backwards; round down to still be in the future
+        month_diff_round = floor(month_diff_pure / every_nth) * every_nth
     else:
-        print('no extra - shift')
-    while next < now:
-        next = _add_months(next, every_nth)
-        print('add another', every_nth, 'next', next)
-    else:
-        print('no extra + shift')
-    # next.replace(year=now.year, month=now.month)
-    # if next < now:
-    #     next.replace(month=now.month + 1)
-    #TODO @mark: this only works if every_nth is 1
+        # need to shift forwards, round up to be in the future
+        month_diff_round = ceil(month_diff_pure / every_nth) * every_nth
+
+    print(f'first event from {next.date()} after {now.date()} in steps of {every_nth} months: {month_diff_round}')
+
+    # month_diff_steps = (month_diff_pure // every_nth) * every_nth
+    # next = _add_months(next, month_diff_steps)
+    # print('month_diff_pure', month_diff_steps, month_diff_steps)
+    # print('next', next)
+    # while next > now:
+    #     print(f'next = _add_months({next}, -{every_nth})')
+    #     next = _add_months(next, -every_nth)
+    #     print('subtract another', every_nth, 'next', next)
+    # else:
+    #     print('no extra - shift')
+    # while next < now:
+    #     next = _add_months(next, every_nth)
+    #     print('add another', every_nth, 'next', next)
+    # else:
+    #     print('no extra + shift')
+    # # next.replace(year=now.year, month=now.month)
+    # # if next < now:
+    # #     next.replace(month=now.month + 1)
+    # #TODO @mark: this only works if every_nth is 1
+
+    assert next > now
     return next
 
 

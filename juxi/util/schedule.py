@@ -25,22 +25,18 @@ def next_occurrence(now: datetime, reference: datetime, time_unit: str, every_nt
     raise AssertionError(f"unknown time unit {time_unit}")
 
 
-def _next_occurrence_month(now: datetime, next: datetime, every_nth: int):
+def _next_occurrence_month(now: datetime, reference: datetime, every_nth: int):
     print('')
 
-    month_diff_pure = (now.year * 12 + now.month) - (next.year * 12 + next.month)
-    if (now.day, now.hour, now.minute) < (next.day, next.hour, next.minute):
-        # if they were the same month, `next` would be before `now`, so aim one month later
-        month_diff_pure += 1
+    #TODO @mark: to handle shorter months, just shift 1 day of month, then add back and ceil at end
 
-    if month_diff_pure < 0:
-        # need to shift backwards; round down to still be in the future
-        month_diff_round = floor(month_diff_pure / every_nth) * every_nth
-    else:
-        # need to shift forwards, round up to be in the future
-        month_diff_round = ceil(month_diff_pure / every_nth) * every_nth
+    month_diff_round = find_month_shift(every_nth, now, reference)
 
-    print(f'first event from {next.date()} after {now.date()} in steps of {every_nth} months: {month_diff_round}')
+    print(f'first event from {reference.date()} after {now.date()} in steps of {every_nth} months: {month_diff_round}')
+
+    next = perform_month_shift(month_diff_round, reference)
+
+    print(f'{now.year}, {now.month} -> +{month_diff_round // 12}yr, {(now.month + month_diff_round - 1) % 12 + 1 - now.month}m -> {next.year}, {next.month}')
 
     # month_diff_steps = (month_diff_pure // every_nth) * every_nth
     # next = _add_months(next, month_diff_steps)
@@ -64,6 +60,34 @@ def _next_occurrence_month(now: datetime, next: datetime, every_nth: int):
 
     assert next > now
     return next
+
+
+def find_month_shift(every_nth, now, reference):
+    month_diff_pure = (now.year * 12 + now.month) - (reference.year * 12 + reference.month)
+    if (reference.day, reference.hour, reference.minute) < (now.day, now.hour, now.minute):
+        # if they were the same month, `next` would be before `now`, so aim one month later
+        print(f'  +1 month_diff_pure={month_diff_pure}+1')
+        month_diff_pure += 1
+    else:
+        print(f'  just month_diff_pure={month_diff_pure}')
+    if month_diff_pure < 0:
+        # need to shift backwards; round down to still be in the future
+        print('need to shift backwards; round down to still be in the future')
+        month_diff_round = floor(month_diff_pure / every_nth) * every_nth
+    else:
+        # need to shift forwards, round up to be in the future
+        print('need to shift forwards, round up to be in the future')
+        month_diff_round = ceil(month_diff_pure / every_nth) * every_nth
+    return month_diff_round
+
+
+def perform_month_shift(month_diff_round, reference):
+    delta_months = reference.month + month_diff_round - 1
+    print(f'  {reference.year} + ({reference.month} + {month_diff_round} - 1) // 12 = {reference.year} + {delta_months} // 12 = {reference.year + delta_months // 12}')
+    return reference.replace(
+        year=reference.year + delta_months // 12,
+        month=delta_months % 12 + 1,
+    )
 
 
 def _add_months(dt: datetime, add_months: int) -> datetime:

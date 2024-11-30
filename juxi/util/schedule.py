@@ -30,46 +30,27 @@ def _next_occurrence_month(now: datetime, reference: datetime, every_nth: int):
 
     #TODO @mark: to handle shorter months, just shift 1 day of month, then add back and ceil at end
 
-    month_diff_round = find_month_shift(every_nth, now, reference)
+    month_diff_round = _find_month_shift(every_nth, now, reference)
 
     print(f'first event from {reference.date()} after {now.date()} in steps of {every_nth} months: {month_diff_round}')
 
-    next = perform_month_shift(month_diff_round, reference)
+    next = _perform_month_shift(month_diff_round, reference)
 
     print(f'{now.year}, {now.month} -> +{month_diff_round // 12}yr, {(now.month + month_diff_round - 1) % 12 + 1 - now.month}m -> {next.year}, {next.month}')
 
-    # month_diff_steps = (month_diff_pure // every_nth) * every_nth
-    # next = _add_months(next, month_diff_steps)
-    # print('month_diff_pure', month_diff_steps, month_diff_steps)
-    # print('next', next)
-    # while next > now:
-    #     print(f'next = _add_months({next}, -{every_nth})')
-    #     next = _add_months(next, -every_nth)
-    #     print('subtract another', every_nth, 'next', next)
-    # else:
-    #     print('no extra - shift')
-    # while next < now:
-    #     next = _add_months(next, every_nth)
-    #     print('add another', every_nth, 'next', next)
-    # else:
-    #     print('no extra + shift')
-    # # next.replace(year=now.year, month=now.month)
-    # # if next < now:
-    # #     next.replace(month=now.month + 1)
-    # #TODO @mark: this only works if every_nth is 1
-
+    print(f'next > now -> {next} > {now}')
     assert next > now
     return next
 
 
-def find_month_shift(every_nth, now, reference):
+def _find_month_shift(every_nth, now, reference):
     month_diff_pure = (now.year * 12 + now.month) - (reference.year * 12 + reference.month)
     if (reference.day, reference.hour, reference.minute) < (now.day, now.hour, now.minute):
         # if they were the same month, `next` would be before `now`, so aim one month later
-        print(f'  +1 month_diff_pure={month_diff_pure}+1')
+        print(f'  +1 month_diff_pure={month_diff_pure}+1 between now {now} and reference {reference}')
         month_diff_pure += 1
     else:
-        print(f'  just month_diff_pure={month_diff_pure}')
+        print(f'  just month_diff_pure={month_diff_pure} between now {now} and reference {reference}')
     if month_diff_pure < 0:
         # need to shift backwards; round down to still be in the future
         print('need to shift backwards; round down to still be in the future')
@@ -81,7 +62,7 @@ def find_month_shift(every_nth, now, reference):
     return month_diff_round
 
 
-def perform_month_shift(month_diff_round, reference):
+def _perform_month_shift(month_diff_round, reference):
     delta_months = reference.month + month_diff_round - 1
     print(f'  {reference.year} + ({reference.month} + {month_diff_round} - 1) // 12 = {reference.year} + {delta_months} // 12 = {reference.year + delta_months // 12}')
     return reference.replace(

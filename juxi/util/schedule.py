@@ -40,7 +40,8 @@ def _next_occurrence_month(now: datetime, reference: datetime, every_nth: int):
 
     print(f'{now.year}, {now.month} -> +{month_diff_round // 12}yr, {(now.month + month_diff_round - 1) % 12 + 1 - now.month}m -> {next.year}, {next.month}')
 
-    print(f'next > now -> {next} > {now}')
+    if next <= now:
+        print(f'next > now -> {next} > {now}')
     assert next > now
     return next
 

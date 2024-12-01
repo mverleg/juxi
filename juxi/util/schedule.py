@@ -1,7 +1,6 @@
 from calendar import monthrange
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 
 from juxi.data.schedule import MONTH, WEEK, DAY, HOUR, MINUTE
@@ -19,18 +18,31 @@ def next_occurrence(now: datetime, reference: datetime, time_unit: str, every_nt
     if time_unit == MONTH:
         return _next_occurrence_month(now, next, every_nth)
     if time_unit in {WEEK, DAY}:
-        print(f'TODO: {time_unit}')
-        return now  #TODO @mark:
+        step_days_pure = every_nth * 7 if time_unit == WEEK else every_nth
+        return _next_occurrence_days(now, reference, step_days_pure)
     if time_unit in {HOUR, MINUTE}:
         print(f'TODO: {time_unit}')
         return now  #TODO @mark:
     raise AssertionError(f"unknown time unit {time_unit}")
 
 
-def _next_occurrence_month(now: datetime, reference: datetime, every_nth: int):
-    print('')
+def _next_occurrence_days(now, reference, every_nth):
+    diff = reference - now
+    step_days_pure = diff.days
+    if (reference.hour, reference.minute) < (now.hour, now.minute):
+        # if they were the same day, `next` would be before `now`, so aim one day later
+        step_days_pure += 1
+    if diff.days < 0:
+        # need to shift backwards; round down to still be in the future
+        step_days_round = _div_round_towards_zero(diff.days, every_nth) * every_nth
+    else:
+        # need to shift forwards, round up to be in the future
+        step_days_round = round_away_from_zero(diff.days, every_nth) * every_nth
+    delta = timedelta(days=step_days_round, seconds=0, microseconds=0)
+    return now + delta
 
-    #TODO @mark: to handle shorter months, just shift 1 day of month, then add back and ceil at end
+
+def _next_occurrence_month(now: datetime, reference: datetime, every_nth: int):
 
     month_diff_round = _find_month_shift(every_nth, now, reference)
 

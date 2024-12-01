@@ -1,11 +1,10 @@
 
 from datetime import datetime
-import pytz
 
 from juxi.data.schedule import MONTH
 from juxi.util.schedule import next_occurrence
+from tests.util.test_schedule_util import TZ, dt
 
-TZ = pytz.timezone("Europe/Amsterdam")
 
 def test_interyear_forward_samemonth():
     event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2023, 2, 1, 2), time_unit=MONTH, every_nth=3)
@@ -123,7 +122,3 @@ def test_strip_seconds():
 def reproduce_broken_case_1():
     event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2023, 2, 1, 2), time_unit=MONTH, every_nth=3)
     assert event == dt(2024, 11, 1, 2)
-
-def dt(year, month, day, hour):
-    return datetime(year, month, day, hour, 15, 0, 0, tzinfo=TZ)
-

@@ -39,6 +39,8 @@ class Schedule(models.Model):
 
 class TaskSeries(models.Model):
     name = models.CharField(max_length=64, unique=True)
+    #TODO @mark: maybe this should be a M2M relation, but for now it's not worth the added complexity
+    #TODO @mark: alternatively make schedule support multiple, like every Mon and Fri, or make code a FK to allow multiple series
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
     code_template = models.TextField(default="#!/usr/bin/env -S bash -eEu -o pipefail\n\necho 'TODO'")
 

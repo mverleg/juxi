@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
 
-from juxi.data.schedule import TIME_UNIT, DAY
+from juxi.data.schedule import TIME_UNIT, DAY, WEEK
 
 NO_STATUS = -1
 
@@ -28,8 +28,13 @@ class Schedule(models.Model):
         self.date_reference = self.date_reference.replace(second=0, microsecond=0)
         super().save(*args, **kwargs)
 
+    def freq_description(self):
+        if self.time_unit == WEEK:
+            return f'every {self.every_nth} {self.date_reference.strftime("%A").lower()}'
+        return f'every {self.every_nth} {self.time_unit}'
+
     def __str__(self):
-        return f'{self.name} (every {self.every_nth} {self.time_unit})'
+        return f'{self.name} ({self.freq_description()})'
 
 
 class TaskSeries(models.Model):

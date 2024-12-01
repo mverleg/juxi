@@ -51,6 +51,24 @@ def _next_occurrence_minutes(now, reference, every_nth_min):
 
     now_total_mins = now.hour * 60 + now.minute
     ref_total_mins = reference.hour * 60 + reference.minute
+    minute_round_total = _find_rounded_minute_total(every_nth_min, now_total_mins, ref_total_mins)
+
+    if minute_round_total >= 24 * 60:
+        # next day; find first occurrence
+        next = now + timedelta(days=1)
+        minute_round_total = _find_rounded_minute_total(every_nth_min, 0, ref_total_mins)
+        assert minute_round_total < 24 * 60
+    else:
+        next = now
+
+    return next.replace(
+        hour=minute_round_total // 60,
+        minute=minute_round_total % 60,
+        second=0,
+        microsecond=0)
+
+
+def _find_rounded_minute_total(every_nth_min, now_total_mins, ref_total_mins):
     minute_diff_pure = now_total_mins - ref_total_mins
     if now_total_mins < ref_total_mins:
         # need to shift backwards; round down to still be in the future
@@ -58,9 +76,7 @@ def _next_occurrence_minutes(now, reference, every_nth_min):
     else:
         # need to shift forwards, round up to be in the future
         minute_diff_round = _round_away_from_zero(minute_diff_pure, every_nth_min) * every_nth_min
-    next = reference + timedelta(seconds=minute_diff_round * 60)
-    assert next > now
-    return next.replace(second=0, microsecond=0)
+    return ref_total_mins + minute_diff_round
 
 
 def _next_occurrence_month(now: datetime, reference: datetime, every_nth_month: int):

@@ -9,3 +9,9 @@ def tasks(request):
         task_overview=task_overview(),
     ))
 
+
+def task_run(request, series_id):
+    return render(request, 'tasks.html', dict(
+        task_overview=task_overview(),
+    ))
+

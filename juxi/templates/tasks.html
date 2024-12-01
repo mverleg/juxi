@@ -27,7 +27,13 @@
                 <td>not run yet</td>
             {% endif %}
             <td title="{{ details.next }} ({{ details.next.tzname }})">{{ details.next | short_time }} ({{ details.next | time_diff }})</td>
-            <td><a {{ url_cls }} href="#todo">run</a></td>
+            <td>
+            <form method="POST" action="{% url 'task_run' series_id=details.series.id %}">
+                {{ form.as_div }}
+                {% csrf_token %}
+                <button tabindex="3" type="submit" class="text-white bg-emerald-400 hover:bg-fuchsia-400 focus:ring-1 focus:outline-none focus:ring-fuchsia-400 font-medium rounded-lg text-sm sm:w-auto px-1 text-center">run</button>
+            </form>
+            </td>
         </tr>
     {% endfor %}
     </tbody>

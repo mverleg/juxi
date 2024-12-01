@@ -21,7 +21,7 @@ def next_occurrence(now: datetime, reference: datetime, time_unit: str, every_nt
         step_days_pure = every_nth * 7 if time_unit == WEEK else every_nth
         return _next_occurrence_days(now, reference, step_days_pure)
     if time_unit in {HOUR, MINUTE}:
-        step_minutes_pure = every_nth * 30 if time_unit == HOUR else every_nth
+        step_minutes_pure = every_nth * 60 if time_unit == HOUR else every_nth
         return _next_occurrence_minutes(now, reference, step_minutes_pure)
     raise AssertionError(f"unknown time unit {time_unit}")
 

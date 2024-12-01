@@ -1,9 +1,12 @@
 
 from datetime import datetime
 
+import pytz
+
 from juxi.data.schedule import WEEK, DAY
 from juxi.util.schedule import next_occurrence
-from tests.util.test_schedule_util import dt, TZ
+
+TZ = pytz.timezone("Europe/Amsterdam")
 
 
 def test_forward_samemonth():
@@ -64,3 +67,8 @@ def test_very_long():
 def test_reproduce_broken_case_1():
     event = next_occurrence(now=dt(2024, 3, 31, 1), reference=dt(2024, 4, 12, 2), time_unit=DAY, every_nth=6)
     assert event == dt(2024, 3, 31, 2)
+
+
+def dt(year, month, day, hour):
+    return datetime(year, month, day, hour, 15, 0, 0, tzinfo=TZ)
+

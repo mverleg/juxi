@@ -21,12 +21,12 @@ def next_occurrence(now: datetime, reference: datetime, time_unit: str, every_nt
         step_days_pure = every_nth * 7 if time_unit == WEEK else every_nth
         return _next_occurrence_days(now, reference, step_days_pure)
     if time_unit in {HOUR, MINUTE}:
-        print(f'TODO: {time_unit}')
-        return now  #TODO @mark:
+        step_minutes_pure = every_nth * 30 if time_unit == HOUR else every_nth
+        return _next_occurrence_minutes(now, reference, step_minutes_pure)
     raise AssertionError(f"unknown time unit {time_unit}")
 
 
-def _next_occurrence_days(now, reference, every_nth):
+def _next_occurrence_days(now, reference, every_nth_day):
     diff = now - reference
     step_days_pure = diff.days
     if (reference.hour, reference.minute) < (now.hour, now.minute):
@@ -34,27 +34,47 @@ def _next_occurrence_days(now, reference, every_nth):
         step_days_pure += 1
     if diff.days < 0:
         # need to shift backwards; round down to still be in the future
-        step_days_round = _div_round_towards_zero(step_days_pure, every_nth) * every_nth
+        step_days_round = _div_round_towards_zero(step_days_pure, every_nth_day) * every_nth_day
     else:
         # need to shift forwards, round up to be in the future
-        step_days_round = _round_away_from_zero(step_days_pure, every_nth) * every_nth
+        step_days_round = _round_away_from_zero(step_days_pure, every_nth_day) * every_nth_day
     next = reference + timedelta(days=step_days_round)
     if next <= now:
-        next = reference + timedelta(days=step_days_round + every_nth)
+        next = reference + timedelta(days=step_days_round + every_nth_day)
     assert next > now
     return next.replace(second=0, microsecond=0)
 
 
-def _next_occurrence_month(now: datetime, reference: datetime, every_nth: int):
+def _next_occurrence_minutes(now, reference, every_nth_min):
+    # This always considers the time within the day, so if the shift is e.g. 7 hours from 12:00,
+    # it will reset to the reference time tomorrow, so 5:00, 12:00, ... not wrapped like 2:00, 9:00
 
-    month_diff_round = _find_month_shift(every_nth, now, reference)
+    minute_diff_pure = (now.hour * 60 + now.minute) - (reference.hour * 60 + reference.minute)
+    if (now.hour, now.minute) < (reference.hour, reference.minute):
+        # need to shift backwards; round down to still be in the future
+        minute_diff_round = _div_round_towards_zero(minute_diff_pure, every_nth_min) * every_nth_min
+    else:
+        # need to shift forwards, round up to be in the future
+        minute_diff_round = _round_away_from_zero(minute_diff_pure, every_nth_min) * every_nth_min
+    next = reference + timedelta(seconds=minute_diff_round * 60)
+    assert next > now
+    return now.replace(
+        hour=next_hour,
+        minute=next_minute,
+        second=0,
+        microsecond=0)
+
+
+def _next_occurrence_month(now: datetime, reference: datetime, every_nth_month: int):
+
+    month_diff_round = _find_month_shift(every_nth_month, now, reference)
 
     next = _perform_month_shift(month_diff_round, reference)
 
     if next <= now:
         # this can (only?) happen when reference and now are on e.g. 31,
         # but now is later than reference, so it rolls over to next month with 30 days
-        next = _perform_month_shift(month_diff_round + every_nth, reference)
+        next = _perform_month_shift(month_diff_round + every_nth_month, reference)
 
     # assert next > now
     # assert reference.day == next.day or reference.day > 28

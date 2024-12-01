@@ -63,11 +63,17 @@ def test_intrayear_nochange():
 def test_intrayear_nochange_shorter():
     assert False
 
-def test_leap_year():
-    assert False
+def test_feb_nonleap_year():
+    event = next_occurrence(now=dt(2023, 2, 28, 1), reference=dt(2023, 1, 31, 2), time_unit=MONTH, every_nth=1)
+    assert event == dt(2023, 2, 28, 2)
+
+def test_feb_leap_year():
+    event = next_occurrence(now=dt(2024, 2, 28, 1), reference=dt(2024, 1, 31, 2), time_unit=MONTH, every_nth=1)
+    assert event == dt(2024, 2, 29, 2)
 
 def test_strip_seconds():
-    assert False
+    event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2024, 2, 1, 2), time_unit=MONTH, every_nth=3)
+    assert event == dt(2024, 11, 1, 2)
 
 def dt(year, month, day, hour):
     return datetime(year, month, day, hour, 0, 0, 0, tzinfo=TZ)

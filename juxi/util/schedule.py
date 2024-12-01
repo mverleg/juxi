@@ -7,6 +7,7 @@ from django.utils import timezone
 
 from juxi.data.schedule import MONTH, WEEK, DAY, HOUR, MINUTE
 
+#TODO: not sure if/now this handles DST or timezone redefinitions, but I'm willing to accept being slightly off in those cases
 
 def next_occurrence(now: datetime, reference: datetime, time_unit: str, every_nth: int) -> datetime:
     assert every_nth > 0

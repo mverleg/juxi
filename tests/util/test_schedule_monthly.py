@@ -8,18 +8,20 @@ from juxi.util.schedule import next_occurrence
 TZ = pytz.timezone("Europe/Amsterdam")
 
 def test_interyear_forward_samemonth():
-    event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2024, 2, 1, 2), time_unit=MONTH, every_nth=3)
+    event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2023, 2, 1, 2), time_unit=MONTH, every_nth=3)
     assert event == dt(2024, 11, 1, 2)
 
 def test_interyear_forward_samemonth_shorter():
-    event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2024, 5, 31, 2), time_unit=MONTH, every_nth=3)
-    assert event == dt(2024, 11, 30, 2)
+    event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2023, 5, 31, 23), time_unit=MONTH, every_nth=3)
+    assert event == dt(2024, 11, 30, 23)
 
 def test_intrayear_forward_samemonth():
-    assert False
+    event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2024, 3, 1, 23), time_unit=MONTH, every_nth=4)
+    assert event == dt(2024, 11, 1, 23)
 
 def test_intrayear_forward_samemonth_shorter():
-    assert False
+    event = next_occurrence(now=dt(2024, 11, 15, 1), reference=dt(2024, 7, 31, 2), time_unit=MONTH, every_nth=4)
+    assert event == dt(2024, 11, 30, 2)
 
 def test_interyear_forward_nextmonth():
     assert False
@@ -34,16 +36,20 @@ def test_intrayear_forward_nextmonth_shorter():
     assert False
 
 def test_interyear_backard_samemonth():
-    assert False
+    event = next_occurrence(now=dt(2024, 4, 1, 1), reference=dt(2026, 7, 1, 2), time_unit=MONTH, every_nth=3)
+    assert event == dt(2024, 4, 1, 2)
 
 def test_interyear_backard_samemonth_shorter():
-    assert False
+    event = next_occurrence(now=dt(2024, 4, 1, 1), reference=dt(2026, 10, 31, 23), time_unit=MONTH, every_nth=3)
+    assert event == dt(2024, 4, 30, 23)
 
 def test_intrayear_backard_samemonth():
-    assert False
+    event = next_occurrence(now=dt(2024, 4, 1, 1), reference=dt(2024, 12, 11, 23), time_unit=MONTH, every_nth=4)
+    assert event == dt(2024, 4, 11, 23)
 
 def test_intrayear_backard_samemonth_shorter():
-    assert False
+    event = next_occurrence(now=dt(2024, 4, 15, 1), reference=dt(2024, 8, 31, 2), time_unit=MONTH, every_nth=4)
+    assert event == dt(2024, 4, 30, 2)
 
 def test_interyear_backard_nextmonth():
     assert False

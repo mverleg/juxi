@@ -33,6 +33,15 @@ def test_backard_nextmonth_shorter():
     assert event == dt(2024, 11, 30, 22)
     assert False #TODO @mark:
 
+def test_forward_cross_year():
+    #TODO @mark: broken
+    event = next_occurrence(now=dt(2024, 12, 20, 1), reference=dt(2024, 12, 1, 2), time_unit=DAY, every_nth=8)
+    assert event == dt(2025, 1, 2, 1)
+
+def test_backwards_cross_year():
+    event = next_occurrence(now=dt(2024, 12, 25, 2), reference=dt(2025, 1, 2, 1), time_unit=DAY, every_nth=8)
+    assert event == dt(2024, 1, 2, 1)
+
 def test_feb_nonleap_year():
     event = next_occurrence(now=dt(2023, 2, 28, 1), reference=dt(2023, 1, 31, 2), time_unit=DAY, every_nth=1)
     assert event == dt(2023, 2, 28, 2)

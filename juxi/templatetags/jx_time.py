@@ -36,11 +36,11 @@ def time_diff(when: datetime):
     if days_diff > 2:
         return _fmt(template, days_diff, 'day')
     if sec_diff > 2 * 60 * 60:
-        return _fmt(template, sec_diff / (60 * 60), 'hours')
+        return _fmt(template, sec_diff / (60 * 60), 'hour')
     if sec_diff > 5 * 60:
-        return _fmt(template, sec_diff / 60, 'minutes')
+        return _fmt(template, sec_diff / 60, 'minute')
     if sec_diff > 10:
-        return _fmt(template, sec_diff, 'seconds')
+        return _fmt(template, sec_diff, 'second')
     return 'now'
 
 

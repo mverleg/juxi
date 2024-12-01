@@ -46,9 +46,10 @@ def task_overview() -> List[TaskOverview]:
     #   );
 
     query_count_init = len(connection.queries)
-    all_series = TaskSeries.objects.all()
+    all_series = list(TaskSeries.objects.all())
     all_schedules_map = dict((schedule.id, schedule) for schedule in Schedule.objects.all())
     latest_runs_subquery = (TaskRun.objects.filter(series_id=OuterRef('series_id'))
+        .values('series_id')  # this inserts a seemingly-unnecessary GROUP BY, but it suppresses the default incorrect grouping
         .annotate(max_start_at=Max('start_at'))
         .values('max_start_at'))
     latest_runs = (TaskRun.objects
@@ -57,10 +58,6 @@ def task_overview() -> List[TaskOverview]:
         .all())
     latest_run_map = dict((run.series_id, run) for run in latest_runs)
 
-    query_count = len(connection.queries) - query_count_init
-    assert query_count <= 2
-    #TODO @mark: this cannot possibly be passing... ^
-
     now = timezone.now()
     overview = list(TaskOverview(
         series,
@@ -68,6 +65,9 @@ def task_overview() -> List[TaskOverview]:
         latest_run_map.get(series.id, None),
         next_occurrence(now, schedule.date_reference, schedule.time_unit, schedule.every_nth),
     ) for series, schedule in [(series, all_schedules_map[series.schedule_id]) for series in all_series])
+
+    query_count = len(connection.queries) - query_count_init
+    assert query_count <= 3
 
     return sorted(overview, key=lambda series: series.next)
 

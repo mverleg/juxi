@@ -1,6 +1,6 @@
 
 from django.contrib.auth import logout as user_logout, authenticate, login as user_login
-from django.contrib.messages import error, info, get_messages
+from django.contrib.messages import error, info
 from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse

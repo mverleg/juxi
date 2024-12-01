@@ -13,7 +13,8 @@ class TaskSeriesAdmin(admin.ModelAdmin):
 
 
 class TaskRunAdmin(admin.ModelAdmin):
-    list_display = ['series', 'start_at']
+    list_display = ['id', 'series', 'start_at', 'triggered_by']
+    list_filter = ['series', 'triggered_by', ]
 
     # def has_add_permission(self, request):
     #     return False

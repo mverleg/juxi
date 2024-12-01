@@ -56,16 +56,32 @@ def test_intrayear_backard_samemonth_shorter():
     assert event == dt(2024, 4, 30, 2)
 
 def test_interyear_backard_nextmonth():
-    assert False
+    event = next_occurrence(now=dt(2024, 4, 1, 2), reference=dt(2026, 7, 1, 1), time_unit=MONTH, every_nth=3)
+    assert event == dt(2024, 7, 1, 1)
+    assert False  #TODO @mark:
 
 def test_interyear_backard_nextmonth_shorter():
-    assert False
+    event = next_occurrence(now=dt(2024, 4, 31, 1), reference=dt(2026, 10, 1, 23), time_unit=MONTH, every_nth=3)
+    assert event == dt(2026, 10, 1, 23)
+    assert False  #TODO @mark:
 
 def test_intrayear_backard_nextmonth():
-    assert False
+    event = next_occurrence(now=dt(2024, 4, 1, 1), reference=dt(2024, 12, 11, 23), time_unit=MONTH, every_nth=4)
+    assert event == dt(2024, 4, 11, 23)
+    assert False  #TODO @mark:
 
 def test_intrayear_backard_nextmonth_shorter():
-    assert False
+    event = next_occurrence(now=dt(2024, 4, 15, 1), reference=dt(2024, 8, 31, 2), time_unit=MONTH, every_nth=4)
+    assert event == dt(2024, 4, 30, 2)
+    assert False  #TODO @mark:
+
+def test_interyear_backwards_step_not_divisor_of_12():
+    event = next_occurrence(now=dt(2024, 6, 1, 2), reference=dt(2026, 7, 1, 1), time_unit=MONTH, every_nth=5)
+    assert event == dt(2024, 1, 1, 1)
+
+def test_interyear_forward_step_not_divisor_of_12():
+    event = next_occurrence(now=dt(2024, 6, 1, 2), reference=dt(2022, 5, 1, 1), time_unit=MONTH, every_nth=5)
+    assert event == dt(2024, 11, 1, 1)
 
 def test_nochange_sameday():
     event = next_occurrence(now=dt(2024, 7, 15, 2), reference=dt(2024, 7, 15, 3), time_unit=MONTH, every_nth=3)
@@ -89,10 +105,6 @@ def test_day_of_month_cap_should_not_move_before_now_2():
     assert event != dt(2024, 2, 28, 1)
     assert event == dt(2024, 4, 30, 1)
 
-def weird_case_to_check():  #TODO @mark:
-    event = next_occurrence(now=dt(2024, 11, 1, 2), reference=dt(2023, 2, 1, 1), time_unit=MONTH, every_nth=3)
-    assert event == dt(2024, 11, 1, 1)
-
 def test_feb_nonleap_year():
     event = next_occurrence(now=dt(2023, 2, 28, 1), reference=dt(2023, 1, 31, 2), time_unit=MONTH, every_nth=1)
     assert event == dt(2023, 2, 28, 2)
@@ -105,7 +117,10 @@ def test_strip_seconds():
     event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2024, 2, 1, 2), time_unit=MONTH, every_nth=3)
     assert event == dt(2024, 11, 1, 2)
 
+def reproduce_broken_case_1():
+    event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2023, 2, 1, 2), time_unit=MONTH, every_nth=3)
+    assert event == dt(2024, 11, 1, 2)
+
 def dt(year, month, day, hour):
     return datetime(year, month, day, hour, 15, 0, 0, tzinfo=TZ)
-
 

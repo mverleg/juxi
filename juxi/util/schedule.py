@@ -43,6 +43,7 @@ def _next_occurrence_month(now: datetime, reference: datetime, every_nth: int):
     if next <= now:
         print(f'next > now -> {next} > {now}')
     assert next > now
+    assert reference.day == next.day or reference.day > 28
     return next
 
 

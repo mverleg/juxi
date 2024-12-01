@@ -75,9 +75,13 @@ def test_intrayear_backard_nextmonth_shorter():
     assert event == dt(2024, 4, 30, 2)
     assert False  #TODO @mark:
 
-def test_interyear_backwards_step_not_divisor_of_12():
+def test_rounding_towards_zero_instead_of_floor():
     event = next_occurrence(now=dt(2024, 6, 1, 2), reference=dt(2026, 7, 1, 1), time_unit=MONTH, every_nth=5)
-    assert event == dt(2024, 1, 1, 1)
+    assert event == dt(2024, 11, 1, 1)
+
+def test_interyear_backwards_step_not_divisor_of_12():
+    event = next_occurrence(now=dt(2024, 6, 1, 1), reference=dt(2026, 7, 1, 2), time_unit=MONTH, every_nth=5)
+    assert event == dt(2024, 6, 1, 2)
 
 def test_interyear_forward_step_not_divisor_of_12():
     event = next_occurrence(now=dt(2024, 6, 1, 2), reference=dt(2022, 5, 1, 1), time_unit=MONTH, every_nth=5)

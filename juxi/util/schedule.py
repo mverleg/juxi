@@ -4,6 +4,7 @@ from math import floor, ceil
 
 from dateutil.relativedelta import relativedelta
 from django.utils import timezone
+from django.utils.translation import round_away_from_one
 
 from juxi.data.schedule import MONTH, WEEK, DAY, HOUR, MINUTE
 
@@ -58,11 +59,11 @@ def _find_month_shift(every_nth, now, reference):
     if month_diff_pure < 0:
         # need to shift backwards; round down to still be in the future
         print('need to shift backwards; round down to still be in the future')
-        month_diff_round = floor(month_diff_pure / every_nth) * every_nth
+        month_diff_round = _div_round_towards_zero(month_diff_pure, every_nth) * every_nth
     else:
         # need to shift forwards, round up to be in the future
         print('need to shift forwards, round up to be in the future')
-        month_diff_round = ceil(month_diff_pure / every_nth) * every_nth
+        month_diff_round = round_away_from_zero(month_diff_pure, every_nth) * every_nth
     return month_diff_round
 
 
@@ -76,6 +77,14 @@ def _perform_month_shift(month_diff_round, reference):
         month=next_month,
         day=min(monthrange(next_year, next_month)[1], reference.day),
     )
+
+
+def _div_round_towards_zero(num, div) -> int:
+    return int(float(num) / div)
+
+
+def round_away_from_zero(num, div) -> int:
+    return int(float(num + div - 1) / div)
 
 
 def _add_months(dt: datetime, add_months: int) -> datetime:

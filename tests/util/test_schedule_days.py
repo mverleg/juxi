@@ -19,28 +19,24 @@ def test_forward_nextmonth_shorter():
     assert event == dt(2024, 10, 1, 11)
 
 def test_backard_samemonth():
-    event = next_occurrence(now=dt(2024, 4, 1, 1), reference=dt(2026, 7, 1, 2), time_unit=DAY, every_nth=3)
-    assert event == dt(2024, 4, 1, 2)
-    assert False #TODO @mark:
+    event = next_occurrence(now=dt(2024, 4, 10, 2), reference=dt(2024, 4, 30, 1), time_unit=DAY, every_nth=5)
+    assert event == dt(2024, 4, 15, 1)
 
 def test_backard_nextmonth():
-    event = next_occurrence(now=dt(2024, 4, 1, 2), reference=dt(2026, 7, 1, 1), time_unit=DAY, every_nth=3)
-    assert event == dt(2024, 7, 1, 1)
-    assert False #TODO @mark:
+    event = next_occurrence(now=dt(2024, 3, 31, 1), reference=dt(2024, 4, 14, 2), time_unit=DAY, every_nth=7)
+    assert event == dt(2024, 3, 31, 2)
 
 def test_backard_nextmonth_shorter():
-    event = next_occurrence(now=dt(2024, 11, 15, 23), reference=dt(2026, 8, 31, 22), time_unit=DAY, every_nth=3)
-    assert event == dt(2024, 11, 30, 22)
-    assert False #TODO @mark:
+    event = next_occurrence(now=dt(2024, 3, 31, 3), reference=dt(2024, 4, 14, 2), time_unit=DAY, every_nth=7)
+    assert event == dt(2024, 4, 7, 2)
 
 def test_forward_cross_year():
-    #TODO @mark: broken
-    event = next_occurrence(now=dt(2024, 12, 20, 1), reference=dt(2024, 12, 1, 2), time_unit=DAY, every_nth=8)
+    event = next_occurrence(now=dt(2024, 12, 25, 2), reference=dt(2024, 12, 1, 1), time_unit=DAY, every_nth=8)
     assert event == dt(2025, 1, 2, 1)
 
 def test_backwards_cross_year():
-    event = next_occurrence(now=dt(2024, 12, 25, 2), reference=dt(2025, 1, 2, 1), time_unit=DAY, every_nth=8)
-    assert event == dt(2024, 1, 2, 1)
+    event = next_occurrence(now=dt(2024, 12, 25, 2), reference=dt(2025, 1, 12, 1), time_unit=DAY, every_nth=8)
+    assert event == dt(2024, 12, 27, 1)
 
 def test_feb_nonleap_year():
     event = next_occurrence(now=dt(2023, 2, 28, 1), reference=dt(2023, 1, 31, 2), time_unit=DAY, every_nth=1)
@@ -64,3 +60,7 @@ def test_strip_seconds():
     assert event.minute == 10
     assert event.second == 0
     assert event.microsecond == 0
+
+def test_reproduce_broken_case_1():
+    event = next_occurrence(now=dt(2024, 3, 31, 1), reference=dt(2024, 4, 13, 2), time_unit=DAY, every_nth=7)
+    assert event == dt(2024, 4, 15, 1)

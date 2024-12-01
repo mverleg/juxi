@@ -119,6 +119,6 @@ def test_strip_seconds():
     assert event.second == 0
     assert event.microsecond == 0
 
-def reproduce_broken_case_1():
+def test_reproduce_broken_case_1():
     event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2023, 2, 1, 2), time_unit=MONTH, every_nth=3)
     assert event == dt(2024, 11, 1, 2)

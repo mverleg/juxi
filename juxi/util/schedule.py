@@ -40,6 +40,8 @@ def _next_occurrence_days(now, reference, every_nth):
         step_days_round = round_away_from_zero(step_days_pure, every_nth) * every_nth
     delta = timedelta(days=step_days_round, seconds=0, microseconds=0)
     next = reference + delta
+    if next <= now:
+        print('next', next, '>', 'now', now)
     assert next > now  #TODO @mark: TEMPORARY! REMOVE THIS!
     return next
 

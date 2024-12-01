@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta
+from calendar import monthrange
+from datetime import datetime
 from math import floor, ceil
 
 from dateutil.relativedelta import relativedelta
@@ -64,10 +65,13 @@ def _find_month_shift(every_nth, now, reference):
 
 def _perform_month_shift(month_diff_round, reference):
     delta_months = reference.month + month_diff_round - 1
-    print(f'  {reference.year} + ({reference.month} + {month_diff_round} - 1) // 12 = {reference.year} + {delta_months} // 12 = {reference.year + delta_months // 12}')
+    next_year = reference.year + delta_months // 12
+    next_month = delta_months % 12 + 1
+    print(f'  {reference.year} + ({reference.month} + {month_diff_round} - 1) // 12 = {reference.year} + {delta_months} // 12 = {next_year}')
     return reference.replace(
-        year=reference.year + delta_months // 12,
-        month=delta_months % 12 + 1,
+        year=next_year,
+        month=next_month,
+        day=min(monthrange(next_year, next_month)[1], reference.day),
     )
 
 

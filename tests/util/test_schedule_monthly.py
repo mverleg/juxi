@@ -5,16 +5,15 @@ import pytz
 from juxi.data.schedule import MONTH
 from juxi.util.schedule import next_occurrence
 
-
 TZ = pytz.timezone("Europe/Amsterdam")
-
 
 def test_interyear_forward_samemonth():
     event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2024, 2, 1, 2), time_unit=MONTH, every_nth=3)
     assert event == dt(2024, 11, 1, 2)
 
 def test_interyear_forward_samemonth_shorter():
-    assert False
+    event = next_occurrence(now=dt(2024, 11, 1, 1), reference=dt(2024, 5, 31, 2), time_unit=MONTH, every_nth=3)
+    assert event == dt(2024, 11, 30, 2)
 
 def test_intrayear_forward_samemonth():
     assert False

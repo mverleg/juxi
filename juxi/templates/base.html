@@ -35,7 +35,7 @@
             {% if request.user.is_authenticated %}
                 <a class="inline-block hover:bg-emerald-300 p-2" href="{% url 'logout' %}">🔑 {{ request.user }}</a>
                 <a class="inline-block hover:bg-emerald-300 p-2" href="{% url 'tasks' %}">📅 tasks</a>
-                <a class="inline-block hover:bg-emerald-300 p-2" href="{% url 'admin:index' %}">🛠️ admin</a>
+                <a class="inline-block hover:bg-emerald-300 p-2" href="{% url 'admin:index' %}" target="_blank" rel="noopener noreferrer">🛠️ admin</a>
             {% else %}
                 <a class="inline-block hover:bg-emerald-300 p-2" href="{% url 'login' %}?next={{ request.get_full_path }}">🔒 login</a>
             {% endif %}
@@ -47,7 +47,7 @@
     </main>
     <footer class="w-full border-solid border-t-4 border-emerald-300 bg-emerald-200">
         <p class="max-w-4xl mx-auto">
-            © Mark 🐍 code at <a href="https://github.com/mverleg/juxi" class="underline hover:bg-fuchsia-400 focus:bg-fuchsia-400">github.com/mverleg/juxi</a>{% block footer %}{% endblock footer %}
+            © Mark 🐍 code at <a href="https://github.com/mverleg/juxi" class="underline hover:bg-emerald-300">github.com/mverleg/juxi</a>{% block footer %}{% endblock footer %}
             | {% if request.user.is_authenticated %}@{{ request.user }}{% else %}not logged in{% endif %} %%STATS_PLACEHOLDER%%
         </p>
     </footer>

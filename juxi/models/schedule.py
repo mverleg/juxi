@@ -51,7 +51,7 @@ class TaskSeries(models.Model):
 class TaskRun(models.Model):
     series = models.ForeignKey(TaskSeries, on_delete=models.CASCADE)
     start_at = models.DateTimeField()
-    end_at = models.DateTimeField()
+    end_at = models.DateTimeField(null=True, blank=True)
     triggered_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
     code = models.TextField(null=True, blank=True)
     output = models.TextField(null=True, blank=True)

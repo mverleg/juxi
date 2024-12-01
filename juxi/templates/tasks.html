@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load jx_time %}
+
+{% block main %}
+    <h1 class="text-3xl">Welcome to juxi, <span class="font-bold">{{ user }}</span></h1>
+
+    <table class="jx-table table-auto min-w-full text-left">
+    <thead>
+        <tr class="border-b border-neutral-200 font-medium">
+            <th>series</th>
+            <th>schedule</th>
+            <th>previous</th>
+            <th>next</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for details in task_overview %}
+        <tr class="border-b border-neutral-200">
+            <td><a href="{{ details.series_url }}">{{ details.series.name }}</a></td>
+            <td><a href="{{ details.schedule_url }}">{{ details.schedule.freq_description }}{% if details.schedule.every_nth > 1 %}s{% endif %}</a></td>
+            {% if details.previous %}
+                <td title="{{ details.previous.start_at }}"><a href="{{ details.previous_url }}">{{ details.previous.start_at | short_time }} ({{ details.previous.start_at | time_diff }})</a></td>
+            {% else %}
+                <td>not run yet</td>
+            {% endif %}
+            <td title="{{ details.next }} ({{ details.next.tzname }})">{{ details.next | short_time }} ({{ details.next | time_diff }})</td>
+            <td><a href="#todo">run</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock main %}
+

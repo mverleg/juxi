@@ -25,7 +25,6 @@ def time_diff(when: datetime):
     datetime_delta = when - now
     sec_diff = abs(datetime_delta.total_seconds())
     days_diff = int(sec_diff / SEC_PER_DAY)
-    print(datetime_delta, days_diff, sec_diff)  #TODO @mark: TEMPORARY! REMOVE THIS!
     template = 'in {} {}' if when > now else '{} {} ago'
     if days_diff > 365 * 2:
         return _fmt(template, days_diff / 365, 'year')

@@ -35,6 +35,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'juxi.middleware.auth.login_required',
     'juxi.middleware.stats.stats_middleware',
     'juxi.middleware.tz.timezone_cookie_middleware',
 ]

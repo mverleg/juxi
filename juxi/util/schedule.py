@@ -12,7 +12,6 @@ def next_occurrence(now: datetime, reference: datetime, time_unit: str, every_nt
     assert every_nth > 0
     assert timezone.is_aware(reference)
     assert timezone.is_aware(now)
-    print(now)
 
     next = reference.replace(second=0, microsecond=0)
     if time_unit == MONTH:

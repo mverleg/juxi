@@ -58,22 +58,18 @@ def test_intrayear_backard_samemonth_shorter():
 def test_interyear_backard_nextmonth():
     event = next_occurrence(now=dt(2024, 4, 1, 2), reference=dt(2026, 7, 1, 1), time_unit=MONTH, every_nth=3)
     assert event == dt(2024, 7, 1, 1)
-    assert False  #TODO @mark:
 
 def test_interyear_backard_nextmonth_shorter():
-    event = next_occurrence(now=dt(2024, 4, 31, 1), reference=dt(2026, 10, 1, 23), time_unit=MONTH, every_nth=3)
-    assert event == dt(2026, 10, 1, 23)
-    assert False  #TODO @mark:
+    event = next_occurrence(now=dt(2024, 11, 15, 23), reference=dt(2026, 8, 31, 22), time_unit=MONTH, every_nth=3)
+    assert event == dt(2024, 11, 30, 22)
 
 def test_intrayear_backard_nextmonth():
     event = next_occurrence(now=dt(2024, 4, 1, 1), reference=dt(2024, 12, 11, 23), time_unit=MONTH, every_nth=4)
     assert event == dt(2024, 4, 11, 23)
-    assert False  #TODO @mark:
 
 def test_intrayear_backard_nextmonth_shorter():
     event = next_occurrence(now=dt(2024, 4, 15, 1), reference=dt(2024, 8, 31, 2), time_unit=MONTH, every_nth=4)
     assert event == dt(2024, 4, 30, 2)
-    assert False  #TODO @mark:
 
 def test_rounding_towards_zero_instead_of_floor():
     event = next_occurrence(now=dt(2024, 6, 1, 2), reference=dt(2026, 7, 1, 1), time_unit=MONTH, every_nth=5)

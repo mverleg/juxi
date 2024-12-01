@@ -112,6 +112,10 @@ def test_feb_leap_year():
     event = next_occurrence(now=dt(2024, 2, 28, 1), reference=dt(2024, 1, 31, 2), time_unit=MONTH, every_nth=1)
     assert event == dt(2024, 2, 29, 2)
 
+def test_very_long():
+    event = next_occurrence(now=dt(1971, 1, 15, 2), reference=dt(9999, 12, 31, 1), time_unit=MONTH, every_nth=1)
+    assert event == dt(1971, 1, 31, 1)
+
 def test_strip_seconds():
     event = next_occurrence(now=datetime(2024, 11, 1, 1, 55, 20, 30, tzinfo=TZ),
         reference=datetime(2024, 2, 1, 2, 10, 40, 50, tzinfo=TZ), time_unit=MONTH, every_nth=3)

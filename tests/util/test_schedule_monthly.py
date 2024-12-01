@@ -8,11 +8,47 @@ from juxi.util.schedule import next_occurrence
 
 TZ = pytz.timezone("Europe/Amsterdam")
 
+
+def test_interyear_forward_samemonth():
+    event = next_occurrence(now=dt(2024, 11, 28, 12), reference=dt(2024, 11, 29, 12), time_unit=MONTH, every_nth=3)
+    assert event == dt(2024, 11, 29, 12)
+    #TODO @mark:
+
+def test_intrayear_forward_samemonth():
+    assert False
+
+def test_intrayear_nochange():
+    assert False
+
+def test_interyear_forward_nextmonth():
+    assert False
+
+def test_intrayear_forward_nextmonth():
+    assert False
+
+def test_interyear_backard_samemonth():
+    event = next_occurrence(now=dt(2024, 11, 28, 12), reference=dt(2024, 11, 29, 12), time_unit=MONTH, every_nth=3)
+    assert event == dt(2024, 11, 29, 12)
+
+def test_intrayear_backard_samemonth():
+    assert False
+
+def test_interyear_backard_nextmonth():
+    assert False
+
+def test_intrayear_backard_nextmonth():
+    assert False
+
+
+# shorter months
+# leap year
+# strip seconds
+
 def test_monthly_tomorrow():
     event = next_occurrence(now=dt(2024, 11, 28, 12), reference=dt(2024, 11, 29, 12), time_unit=MONTH, every_nth=3)
     assert event == dt(2024, 11, 29, 12)
-    # event = next_occurrence(now=dt(2025, 1, 31, 23), reference=dt(2025, 1, 31, 22), time_unit=MONTH, every_nth=1)
-    # assert event == dt(2025, 2, 28, 22)
+    event = next_occurrence(now=dt(2025, 1, 31, 23), reference=dt(2025, 1, 31, 22), time_unit=MONTH, every_nth=1)
+    assert event == dt(2025, 2, 28, 22)
 
 
 def test_monthly_last_year():

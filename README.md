@@ -13,6 +13,19 @@ Planned features:
 
 ## Local dev
 
+Status: only a few things are working so far:
+
+- Tailwind styling
+- Auth, cookies, admin etc
+- Model and table for recurring tasks, incl choosing next dates (but not actual running yet)
+
+But it is on hold indefinitely. It was an interesting experiment, but:
+
+- It's easier to just hard-code everything, instead of making a webui
+- This could probably be done with an existing CI solution
+
+## Local dev
+
 The first time, you need
 
 * Install dependencies: `pip install .[test]`

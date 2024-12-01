@@ -6,15 +6,17 @@ from juxi.models import Schedule, TaskSeries, TaskRun
 
 class ScheduleAdmin(admin.ModelAdmin):
     list_display = ['name', 'date_reference', 'time_unit', 'every_nth']
+    list_filter = ['time_unit',]
 
 
 class TaskSeriesAdmin(admin.ModelAdmin):
-    list_display = ['name', 'schedule']
+    list_display = ['name', 'schedule',]
+    list_filter = ['schedule',]
 
 
 class TaskRunAdmin(admin.ModelAdmin):
-    list_display = ['id', 'series', 'start_at', 'triggered_by']
-    list_filter = ['series', 'triggered_by', ]
+    list_display = ['id', 'series', 'start_at', 'triggered_by',]
+    list_filter = ['series', 'triggered_by',]
 
     # def has_add_permission(self, request):
     #     return False

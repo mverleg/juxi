@@ -37,13 +37,12 @@ def _next_occurrence_days(now, reference, every_nth):
         step_days_round = _div_round_towards_zero(step_days_pure, every_nth) * every_nth
     else:
         # need to shift forwards, round up to be in the future
-        step_days_round = round_away_from_zero(step_days_pure, every_nth) * every_nth
-    delta = timedelta(days=step_days_round, seconds=0, microseconds=0)
-    next = reference + delta
+        step_days_round = _round_away_from_zero(step_days_pure, every_nth) * every_nth
+    next = reference + timedelta(days=step_days_round)
     if next <= now:
-        print('next', next, '>', 'now', now)
-    assert next > now  #TODO @mark: TEMPORARY! REMOVE THIS!
-    return next
+        next = reference + timedelta(days=step_days_round + every_nth)
+    assert next > now
+    return next.replace(second=0, microsecond=0)
 
 
 def _next_occurrence_month(now: datetime, reference: datetime, every_nth: int):
@@ -72,7 +71,7 @@ def _find_month_shift(every_nth, now, reference):
         month_diff_round = _div_round_towards_zero(month_diff_pure, every_nth) * every_nth
     else:
         # need to shift forwards, round up to be in the future
-        month_diff_round = round_away_from_zero(month_diff_pure, every_nth) * every_nth
+        month_diff_round = _round_away_from_zero(month_diff_pure, every_nth) * every_nth
     return month_diff_round
 
 
@@ -91,7 +90,7 @@ def _div_round_towards_zero(num, div) -> int:
     return int(float(num) / div)
 
 
-def round_away_from_zero(num, div) -> int:
+def _round_away_from_zero(num, div) -> int:
     return int(float(num + div - 1) / div)
 
 

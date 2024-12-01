@@ -47,10 +47,8 @@ def test_feb_leap_year():
     assert event == dt(2024, 2, 29, 1)
 
 def test_weeks_same_as_7days():
-    #TODO @mark: more cases?
-    event = next_occurrence(now=dt(2024, 2, 28, 1), reference=dt(2024, 1, 31, 2), time_unit=WEEK, every_nth=1)
-    assert event == dt(2024, 2, 29, 2)
-    assert False #TODO @mark:
+    event = next_occurrence(now=dt(2024, 8, 28, 1), reference=dt(2024, 7, 31, 2), time_unit=WEEK, every_nth=1)
+    assert event == dt(2024, 8, 28, 2)
 
 def test_strip_seconds():
     event = next_occurrence(now=datetime(2024, 11, 1, 1, 55, 20, 30, tzinfo=TZ),
@@ -64,5 +62,5 @@ def test_very_long():
     assert event == dt(1971, 1, 15, 4)
 
 def test_reproduce_broken_case_1():
-    event = next_occurrence(now=dt(2024, 3, 31, 1), reference=dt(2024, 4, 13, 2), time_unit=DAY, every_nth=7)
-    assert event == dt(2024, 4, 15, 1)
+    event = next_occurrence(now=dt(2024, 3, 31, 1), reference=dt(2024, 4, 12, 2), time_unit=DAY, every_nth=6)
+    assert event == dt(2024, 3, 31, 2)

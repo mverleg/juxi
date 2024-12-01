@@ -49,8 +49,10 @@ def _next_occurrence_minutes(now, reference, every_nth_min):
     # This always considers the time within the day, so if the shift is e.g. 7 hours from 12:00,
     # it will reset to the reference time tomorrow, so 5:00, 12:00, ... not wrapped like 2:00, 9:00
 
-    minute_diff_pure = (now.hour * 60 + now.minute) - (reference.hour * 60 + reference.minute)
-    if (now.hour, now.minute) < (reference.hour, reference.minute):
+    now_total_mins = now.hour * 60 + now.minute
+    ref_total_mins = reference.hour * 60 + reference.minute
+    minute_diff_pure = now_total_mins - ref_total_mins
+    if now_total_mins < ref_total_mins:
         # need to shift backwards; round down to still be in the future
         minute_diff_round = _div_round_towards_zero(minute_diff_pure, every_nth_min) * every_nth_min
     else:
@@ -58,11 +60,7 @@ def _next_occurrence_minutes(now, reference, every_nth_min):
         minute_diff_round = _round_away_from_zero(minute_diff_pure, every_nth_min) * every_nth_min
     next = reference + timedelta(seconds=minute_diff_round * 60)
     assert next > now
-    return now.replace(
-        hour=next_hour,
-        minute=next_minute,
-        second=0,
-        microsecond=0)
+    return next.replace(second=0, microsecond=0)
 
 
 def _next_occurrence_month(now: datetime, reference: datetime, every_nth_month: int):

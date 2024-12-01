@@ -27,19 +27,21 @@ def next_occurrence(now: datetime, reference: datetime, time_unit: str, every_nt
 
 
 def _next_occurrence_days(now, reference, every_nth):
-    diff = reference - now
+    diff = now - reference
     step_days_pure = diff.days
     if (reference.hour, reference.minute) < (now.hour, now.minute):
         # if they were the same day, `next` would be before `now`, so aim one day later
         step_days_pure += 1
     if diff.days < 0:
         # need to shift backwards; round down to still be in the future
-        step_days_round = _div_round_towards_zero(diff.days, every_nth) * every_nth
+        step_days_round = _div_round_towards_zero(step_days_pure, every_nth) * every_nth
     else:
         # need to shift forwards, round up to be in the future
-        step_days_round = round_away_from_zero(diff.days, every_nth) * every_nth
+        step_days_round = round_away_from_zero(step_days_pure, every_nth) * every_nth
     delta = timedelta(days=step_days_round, seconds=0, microseconds=0)
-    return now + delta
+    next = reference + delta
+    assert next > now  #TODO @mark: TEMPORARY! REMOVE THIS!
+    return next
 
 
 def _next_occurrence_month(now: datetime, reference: datetime, every_nth: int):

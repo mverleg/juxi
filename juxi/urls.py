@@ -10,7 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('tasks/', tasks, name='tasks'),
-    path('tasks/<int:series_id>/run/', task_run, name='task_run'),
+    path('tasks/run/', task_run, name='task_run'),
     path('login/', login, name='login'),
     path('logout/', logout, name='logout'),
 

@@ -6,6 +6,7 @@
     <h1 class="text-3xl">Welcome to juxi, <span class="font-bold">{{ user }}</span></h1>
 
     {% with url_cls='class="hover:bg-emerald-200"' %}
+    <form method="POST" action="{% url 'task_run' %}">
     <table class="jx-table table-auto min-w-full text-left">
     <thead>
         <tr class="border-b border-neutral-200 font-medium">
@@ -13,10 +14,10 @@
             <th>schedule</th>
             <th>previous</th>
             <th>next</th>
-            <th>actions</th>
         </tr>
     </thead>
     <tbody>
+    <form method="POST" action="{% url 'task_run' %}">
     {% for details in task_overview %}
         <tr class="border-b border-neutral-200">
             <td><a {{ url_cls }} href="{{ details.series_url }}">{{ details.series.name }}</a></td>
@@ -26,18 +27,17 @@
             {% else %}
                 <td>not run yet</td>
             {% endif %}
-            <td title="{{ details.next }} ({{ details.next.tzname }})">{{ details.next | short_time }} ({{ details.next | time_diff }})</td>
-            <td>
-            <form method="POST" action="{% url 'task_run' series_id=details.series.id %}">
-                {{ form.as_div }}
-                {% csrf_token %}
-                <button tabindex="3" type="submit" class="text-white bg-emerald-400 hover:bg-fuchsia-400 focus:ring-1 focus:outline-none focus:ring-fuchsia-400 font-medium rounded-lg text-sm sm:w-auto px-1 text-center">run</button>
-            </form>
+            <td title="{{ details.next }} ({{ details.next.tzname }})">
+                <input type="hidden" name="series_id" value="{{ details.series.id }}" />
+                <button type="submit" class="text-white bg-emerald-400 hover:bg-fuchsia-400 focus:ring-1 focus:outline-none focus:ring-fuchsia-400 font-medium rounded-lg text-sm sm:w-auto px-1 text-center">run</button>
+                {{ details.next | short_time }} ({{ details.next | time_diff }})
             </td>
         </tr>
     {% endfor %}
     </tbody>
     </table>
+    {% csrf_token %}
+    </form>
     {% endwith %}
 {% endblock main %}
 

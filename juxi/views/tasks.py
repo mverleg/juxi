@@ -1,8 +1,10 @@
 from django.contrib.messages import warning, info
+from django.http import HttpResponseBadRequest
 
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.views.decorators.http import require_POST
 
 from juxi.models import TaskSeries, TaskRun, NO_STATUS
 from juxi.query.schedule import task_overview
@@ -14,8 +16,12 @@ def tasks(request):
     ))
 
 
-def task_run(request, series_id):
-    serie = TaskSeries.objects.get(id=series_id)
+@require_POST
+def task_run(request):
+    if 'series_id' not in request.POST:
+        return HttpResponseBadRequest(redirect("Missing data about which task to run"))
+    serie = TaskSeries.objects.get(id=request.POST['series_id'])
+    print(serie)
     run = TaskRun(
         series=serie,
         start_at=timezone.now(),

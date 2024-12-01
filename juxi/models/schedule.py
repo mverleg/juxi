@@ -45,7 +45,7 @@ class TaskSeries(models.Model):
     code_template = models.TextField(default="#!/usr/bin/env -S bash -eEu -o pipefail\n\necho 'TODO'")
 
     def __str__(self):
-        return f'{self.name} ({self.schedule.name})'
+        return f'{self.name}'
 
 
 class TaskRun(models.Model):

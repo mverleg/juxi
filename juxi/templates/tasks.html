@@ -10,9 +10,9 @@
     <table class="jx-table table-auto min-w-full text-left">
     <thead>
         <tr class="border-b border-neutral-200 font-medium">
-            <th>series</th>
-            <th>schedule</th>
-            <th>previous</th>
+            <th><a {{ url_cls }} href="{% url 'admin:juxi_taskseries_changelist' %}">series</a></th>
+            <th><a {{ url_cls }} href="{% url 'admin:juxi_schedule_changelist' %}">schedule</a></th>
+            <th><a {{ url_cls }} href="{% url 'admin:juxi_taskrun_changelist' %}">previous</a></th>
             <th>next</th>
         </tr>
     </thead>
@@ -28,8 +28,10 @@
                 <td>not run yet</td>
             {% endif %}
             <td title="{{ details.next }} ({{ details.next.tzname }})">
-                <input type="hidden" name="series_id" value="{{ details.series.id }}" />
-                <button type="submit" class="text-white bg-emerald-400 hover:bg-fuchsia-400 focus:ring-1 focus:outline-none focus:ring-fuchsia-400 font-medium rounded-lg text-sm sm:w-auto px-1 text-center">run</button>
+                <button type="submit" name="series_id" value="{{ details.series.id }}"
+                        class="text-white bg-emerald-400 hover:bg-fuchsia-400 focus:ring-1 focus:outline-none focus:ring-fuchsia-400 font-medium rounded-lg text-sm sm:w-auto px-1 text-center">
+                    run
+                </button>
                 {{ details.next | short_time }} ({{ details.next | time_diff }})
             </td>
         </tr>
